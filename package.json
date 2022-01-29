@@ -1,0 +1,28 @@
+{
+  "name": "visualize-poverty-vite",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "convert-json": "node --loader ts-node/esm scripts/join-people.ts",
+    "build": "npm run convert-json && tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@emotion/css": "^11.7.1",
+    "@types/d3": "^7.1.0",
+    "@types/d3-force": "^3.0.3",
+    "d3": "^7.3.0",
+    "d3-force": "^3.0.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "recharts": "^2.1.8"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.33",
+    "@types/react-dom": "^17.0.10",
+    "@vitejs/plugin-react": "^1.0.7",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.4.4",
+    "vite": "^2.7.2"
+  }
+}
