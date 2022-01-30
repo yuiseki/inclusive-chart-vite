@@ -4,7 +4,7 @@ import "./App.css";
 import { InteractiveScatterChart } from "./components/InteractiveScatterChart";
 import { InteractiveBubbleChart } from "./components/InteractiveBubbleChart";
 
-const tabs = ["scatter", "bubble"];
+const tabs = ["bubble", "scatter"];
 function App() {
   const [activeTab, setActiveTab] = useState(tabs[0]);
 
@@ -27,7 +27,7 @@ function App() {
 
   return (
     <div className="main">
-      <div style={{ fontSize: "2em" }}>
+      <div style={{ fontSize: "2em", height: "3vh", padding: "1vh" }}>
         {tabs.map((tab) => {
           return (
             <label key={tab} htmlFor={`${tab}-button`}>
@@ -44,23 +44,9 @@ function App() {
           );
         })}
       </div>
-      <div
-        className={css`
-          width: 100%;
-          height: 95%;
-          display: ${activeTab === "scatter" ? "block" : "none"};
-        `}
-      >
-        <InteractiveScatterChart />
-      </div>
-      <div
-        className={css`
-          width: 100%;
-          height: 95%;
-          display: ${activeTab === "bubble" ? "block" : "none"};
-        `}
-      >
-        <InteractiveBubbleChart />
+      <div style={{ width: "100vw", height: "95vh" }}>
+        {activeTab === "scatter" && <InteractiveScatterChart />}
+        {activeTab === "bubble" && <InteractiveBubbleChart />}
       </div>
     </div>
   );
