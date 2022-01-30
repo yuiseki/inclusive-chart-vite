@@ -69,10 +69,24 @@ export const AbstractBubbleChart: React.VFC<{
 
   const onFillColor = useCallback(
     (value) => {
+      let domain: string[] = [];
+      let range: string[] = [];
+      switch (bubbleColor) {
+        case "sex":
+          domain = ["male", "female"];
+          range = ["blue", "red"];
+          break;
+        case "job":
+          domain = ["0", "1"];
+          range = ["lightgray", "black"];
+          break;
+        default:
+          break;
+      }
       const fillColor = d3
         .scaleOrdinal<string>()
-        .domain(["male", "female"])
-        .range(["blue", "red"])
+        .domain(domain)
+        .range(range)
         .unknown("black");
       return fillColor(value);
     },
@@ -81,15 +95,24 @@ export const AbstractBubbleChart: React.VFC<{
 
   const onForceX = useCallback(
     (value) => {
-      console.log(value);
+      let domain: string[] = [];
+      switch (xAxis) {
+        case "sex":
+          domain = ["male", "female"];
+          break;
+        case "job":
+          domain = ["0", "1"];
+        default:
+          break;
+      }
       const xScaler = d3
         .scaleOrdinal<number>()
-        .domain(["male", "female"])
+        .domain(domain)
         .range([center.x - width / 4, center.x + width / 4])
         .unknown(center.x);
       return xScaler(value);
     },
-    [width, height, center, xAxis]
+    [center, xAxis]
   );
 
   /*
@@ -107,14 +130,21 @@ export const AbstractBubbleChart: React.VFC<{
 
   const onForceY = useCallback(
     (value) => {
+      if (!data) {
+        return center.y;
+      }
+      const maxSize = d3.max(data, (d) => +d.yAxis);
+      if (!maxSize) {
+        return center.y;
+      }
       const yScaler = d3
         .scaleLinear()
-        .domain([0, 100])
+        .domain([0, maxSize])
         .range([10, height - 10])
         .unknown(center.y);
       return yScaler(parseInt(value));
     },
-    [width, height, center, yAxis]
+    [data, center, yAxis]
   );
 
   useEffect(() => {

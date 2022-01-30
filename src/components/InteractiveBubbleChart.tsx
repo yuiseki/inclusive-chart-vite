@@ -8,6 +8,10 @@ import {
 import { AbstractBubbleChart } from "./AbstractBubbleChart";
 
 import dataList from "../data/sample.json";
+import { YAxisAge } from "./YAxis/age";
+import { YAxisIncome } from "./YAxis/income";
+import { XAxisSex } from "./XAxis/sex";
+import { XAxisJob } from "./XAxis/job";
 
 export const InteractiveBubbleChart: React.VFC = () => {
   const div = useRef<HTMLDivElement>(null);
@@ -62,6 +66,7 @@ export const InteractiveBubbleChart: React.VFC = () => {
           <select name="bubbleColor" onChange={onChangeBubbleColor}>
             <option value="none">なし</option>
             <option value="sex">性別</option>
+            <option value="job">仕事</option>
           </select>
         </b>
       </div>
@@ -73,41 +78,20 @@ export const InteractiveBubbleChart: React.VFC = () => {
         }}
       >
         <div style={{ width: "5%" }}></div>
-        {xAxis === "none" ? (
+        {xAxis === "none" && (
           <div style={{ width: "100%", textAlign: "center" }}>
             <b style={{ marginLeft: "1%" }}>
               横軸：
               <select name="xAxis" onChange={onChangeXAxis}>
                 <option value="none">なし</option>
                 <option value="sex">性別</option>
+                <option value="job">仕事</option>
               </select>
             </b>
           </div>
-        ) : (
-          <>
-            <div
-              style={{
-                marginLeft: "1%",
-                width: "47%",
-                textAlign: "center",
-                backgroundColor: "lightgray",
-              }}
-            >
-              男性
-            </div>
-            <div
-              style={{
-                marginLeft: "1%",
-                marginRight: "1%",
-                width: "47%",
-                textAlign: "center",
-                backgroundColor: "lightgray",
-              }}
-            >
-              女性
-            </div>
-          </>
         )}
+        {xAxis === "sex" && <XAxisSex />}
+        {xAxis === "job" && <XAxisJob />}
       </div>
       <div style={{ width: "100%", height: "100%", display: "flex" }}>
         <div
@@ -120,40 +104,20 @@ export const InteractiveBubbleChart: React.VFC = () => {
             marginLeft: "2%",
           }}
         >
-          {yAxis === "none" ? (
+          {yAxis === "none" && (
             <div style={{ height: "100%", textAlign: "center" }}>
               <b style={{ marginLeft: "1%" }}>
                 縦軸：
                 <select name="yAxis" onChange={onChangeYAxis}>
                   <option value="none">なし</option>
                   <option value="age">年齢</option>
+                  <option value="income">所得</option>
                 </select>
               </b>
             </div>
-          ) : (
-            <>
-              <div
-                style={{
-                  marginTop: "1%",
-                  height: "50%",
-                  textAlign: "center",
-                  backgroundColor: "lightgray",
-                }}
-              >
-                年齢が低い
-              </div>
-              <div
-                style={{
-                  marginTop: "1%",
-                  height: "50%",
-                  textAlign: "center",
-                  backgroundColor: "lightgray",
-                }}
-              >
-                年齢が高い
-              </div>
-            </>
           )}
+          {yAxis === "age" && <YAxisAge />}
+          {yAxis === "income" && <YAxisIncome />}
         </div>
         <div
           ref={div}
