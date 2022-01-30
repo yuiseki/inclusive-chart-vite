@@ -7,7 +7,10 @@ type BubbleData = {
   index: number;
   x: number;
   y: number;
-  r: number;
+  radius: number;
+  color: string;
+  xAxis: string;
+  yAxis: string;
 };
 type RawData = {
   [key: string]: number | string;
@@ -16,9 +19,11 @@ export const AbstractBubbleChart: React.VFC<{
   width: number;
   height: number;
   rawData: RawData;
-  radiusKey: string;
-  onFillColor: (d: BubbleData) => string;
-}> = ({ width, height, rawData, radiusKey, onFillColor }) => {
+  bubbleSize: string;
+  bubbleColor: string;
+  xAxis: string;
+  yAxis: string;
+}> = ({ width, height, rawData, bubbleSize, bubbleColor, xAxis, yAxis }) => {
   const [data, setData] = useState<BubbleData[] | undefined>(undefined);
   const ref = useRef<SVGSVGElement>(null);
   const [center, setCenter] = useState({ x: width / 2, y: height / 2 });
@@ -32,42 +37,59 @@ export const AbstractBubbleChart: React.VFC<{
   }, [width, height]);
 
   useEffect(() => {
+    console.log(xAxis, yAxis);
     const newData = rawData.map((d, i) => {
       return {
         index: i,
         x: center.x,
         y: center.y,
-        r: d[radiusKey] as number,
+        radius: d[bubbleSize] as number,
+        color: d[bubbleColor] as string,
+        xAxis: d[xAxis] as string,
+        yAxis: d[yAxis] as string,
       };
     });
     setData(newData);
-  }, [rawData, center]);
+  }, [rawData, center, bubbleSize, bubbleColor, xAxis, yAxis]);
 
-  const radiusScale = useCallback(
-    (v) => {
+  const onRadiusSize = useCallback(
+    (value) => {
       if (!data) {
         return 1;
       }
-      const maxSize = d3.max(data, (d) => +d.r);
+      const maxSize = d3.max(data, (d) => +d.radius);
       if (!maxSize) {
-        return 1;
+        return 10;
       }
-      const radiusScale = d3.scaleLinear().domain([1, maxSize]).range([3, 30]);
-      return radiusScale(v);
+      const radiusScaler = d3.scaleLinear().domain([1, maxSize]).range([3, 30]);
+      return radiusScaler(value);
     },
-    [data]
+    [data, bubbleSize]
+  );
+
+  const onFillColor = useCallback(
+    (value) => {
+      const fillColor = d3
+        .scaleOrdinal<string>()
+        .domain(["male", "female"])
+        .range(["blue", "red"])
+        .unknown("black");
+      return fillColor(value);
+    },
+    [bubbleColor]
   );
 
   const onForceX = useCallback(
-    (domain) => {
+    (value) => {
+      console.log(value);
       const xScaler = d3
         .scaleOrdinal<number>()
         .domain(["male", "female"])
         .range([center.x - width / 4, center.x + width / 4])
         .unknown(center.x);
-      return xScaler(domain);
+      return xScaler(value);
     },
-    [width, height, center]
+    [width, height, center, xAxis]
   );
 
   /*
@@ -84,14 +106,15 @@ export const AbstractBubbleChart: React.VFC<{
   );*/
 
   const onForceY = useCallback(
-    (domain) => {
+    (value) => {
       const yScaler = d3
         .scaleLinear()
         .domain([0, 100])
-        .range([10, height - 10]);
-      return yScaler(parseInt(domain));
+        .range([10, height - 10])
+        .unknown(center.y);
+      return yScaler(parseInt(value));
     },
-    [width, height, center]
+    [width, height, center, yAxis]
   );
 
   useEffect(() => {
@@ -106,10 +129,10 @@ export const AbstractBubbleChart: React.VFC<{
           .forceX()
           .strength(0.05)
           .x((d) => {
-            if (!d.index) {
-              return 0;
+            if (d.index === undefined) {
+              return center.x;
             }
-            return onForceX(rawData[d.index]["sex"]);
+            return onForceX(data[d.index].xAxis);
           })
       )
       .force(
@@ -118,19 +141,19 @@ export const AbstractBubbleChart: React.VFC<{
           .forceY()
           .strength(0.05)
           .y((d) => {
-            if (!d.index) {
-              return 0;
+            if (d.index === undefined) {
+              return center.y;
             }
-            return onForceY(rawData[d.index]["age"]);
+            return onForceY(data[d.index].yAxis);
           })
       )
       .force(
         "collision",
         d3.forceCollide().radius((d) => {
-          if (!d.index) {
+          if (d.index === undefined) {
             return 1;
           }
-          return radiusScale(data[d.index].r) + 5;
+          return onRadiusSize(data[d.index].radius) + 5;
         })
       );
     simulation.on("tick", () =>
@@ -138,12 +161,12 @@ export const AbstractBubbleChart: React.VFC<{
         .selectAll("circle")
         .data(data)
         .join("circle")
-        .style("fill", (d) => onFillColor(d))
+        .style("fill", (d) => onFillColor(d.color))
         .attr("cx", (d) => d.x)
         .attr("cy", (d) => d.y)
-        .attr("r", (d) => radiusScale(d.r))
+        .attr("r", (d) => onRadiusSize(d.radius))
     );
-  }, [data, center]);
+  }, [data, center, xAxis, yAxis]);
 
   return (
     <svg

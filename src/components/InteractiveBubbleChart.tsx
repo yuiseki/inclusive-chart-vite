@@ -1,4 +1,10 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { AbstractBubbleChart } from "./AbstractBubbleChart";
 
 import dataList from "../data/sample.json";
@@ -7,7 +13,10 @@ export const InteractiveBubbleChart: React.VFC = () => {
   const div = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState<number>(window.innerWidth - 100);
   const [height, setHeight] = useState<number>(window.innerHeight - 100);
-  const [bubbleColor, setBubbleColor] = useState();
+  const [bubbleSize, setBubbleSize] = useState("none");
+  const [bubbleColor, setBubbleColor] = useState("none");
+  const [xAxis, setXAxis] = useState("none");
+  const [yAxis, setYAxis] = useState("none");
 
   useEffect(() => {
     if (!div.current) {
@@ -17,6 +26,22 @@ export const InteractiveBubbleChart: React.VFC = () => {
     setHeight(div.current.offsetHeight);
   }, [div.current]);
 
+  const onChangeBubbleSize = useCallback((e) => {
+    setBubbleSize(e.currentTarget.value);
+  }, []);
+
+  const onChangeBubbleColor = useCallback((e) => {
+    setBubbleColor(e.currentTarget.value);
+  }, []);
+
+  const onChangeXAxis = useCallback((e) => {
+    setXAxis(e.currentTarget.value);
+  }, []);
+
+  const onChangeYAxis = useCallback((e) => {
+    setYAxis(e.currentTarget.value);
+  }, []);
+
   return (
     <div
       style={{
@@ -25,7 +50,20 @@ export const InteractiveBubbleChart: React.VFC = () => {
       }}
     >
       <div style={{ width: "100%", textAlign: "center" }}>
-        <b>バブルの大きさ：所得</b>
+        <b>
+          バブルの大きさ：
+          <select name="bubbleSize" onChange={onChangeBubbleSize}>
+            <option value="none">なし</option>
+            <option value="income">所得</option>
+          </select>
+        </b>
+        <b style={{ marginLeft: "1%" }}>
+          バブルの色：
+          <select name="bubbleColor" onChange={onChangeBubbleColor}>
+            <option value="none">なし</option>
+            <option value="sex">性別</option>
+          </select>
+        </b>
       </div>
       <div
         style={{
@@ -35,8 +73,41 @@ export const InteractiveBubbleChart: React.VFC = () => {
         }}
       >
         <div style={{ width: "5%" }}></div>
-        <div style={{ width: "47%", textAlign: "center" }}>男性</div>
-        <div style={{ width: "47%", textAlign: "center" }}>女性</div>
+        {xAxis === "none" ? (
+          <div style={{ width: "100%", textAlign: "center" }}>
+            <b style={{ marginLeft: "1%" }}>
+              横軸：
+              <select name="xAxis" onChange={onChangeXAxis}>
+                <option value="none">なし</option>
+                <option value="sex">性別</option>
+              </select>
+            </b>
+          </div>
+        ) : (
+          <>
+            <div
+              style={{
+                marginLeft: "1%",
+                width: "47%",
+                textAlign: "center",
+                backgroundColor: "lightgray",
+              }}
+            >
+              男性
+            </div>
+            <div
+              style={{
+                marginLeft: "1%",
+                marginRight: "1%",
+                width: "47%",
+                textAlign: "center",
+                backgroundColor: "lightgray",
+              }}
+            >
+              女性
+            </div>
+          </>
+        )}
       </div>
       <div style={{ width: "100%", height: "100%", display: "flex" }}>
         <div
@@ -49,8 +120,40 @@ export const InteractiveBubbleChart: React.VFC = () => {
             marginLeft: "2%",
           }}
         >
-          <div style={{ margin: "auto", height: "20%" }}>年齢が低い</div>
-          <div style={{ margin: "auto", height: "20%" }}>年齢が高い</div>
+          {yAxis === "none" ? (
+            <div style={{ height: "100%", textAlign: "center" }}>
+              <b style={{ marginLeft: "1%" }}>
+                縦軸：
+                <select name="yAxis" onChange={onChangeYAxis}>
+                  <option value="none">なし</option>
+                  <option value="age">年齢</option>
+                </select>
+              </b>
+            </div>
+          ) : (
+            <>
+              <div
+                style={{
+                  marginTop: "1%",
+                  height: "50%",
+                  textAlign: "center",
+                  backgroundColor: "lightgray",
+                }}
+              >
+                年齢が低い
+              </div>
+              <div
+                style={{
+                  marginTop: "1%",
+                  height: "50%",
+                  textAlign: "center",
+                  backgroundColor: "lightgray",
+                }}
+              >
+                年齢が高い
+              </div>
+            </>
+          )}
         </div>
         <div
           ref={div}
@@ -63,17 +166,10 @@ export const InteractiveBubbleChart: React.VFC = () => {
             width={width}
             height={height}
             rawData={dataList}
-            radiusKey="income"
-            onFillColor={(d) => {
-              switch (dataList[d.index].sex) {
-                case "male":
-                  return "blue";
-                case "female":
-                  return "red";
-                default:
-                  return "gray";
-              }
-            }}
+            bubbleSize={bubbleSize}
+            bubbleColor={bubbleColor}
+            xAxis={xAxis}
+            yAxis={yAxis}
           />
         </div>
       </div>
