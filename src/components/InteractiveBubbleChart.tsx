@@ -8,10 +8,7 @@ import {
 import { AbstractBubbleChart } from "./AbstractBubbleChart";
 
 import dataList from "../data/sample.json";
-import { YAxisAge } from "./YAxis/age";
-import { YAxisIncome } from "./YAxis/income";
-import { XAxisSex } from "./XAxis/sex";
-import { XAxisJob } from "./XAxis/job";
+import { InteractiveBubbleChartAxis } from "./InteractiveBubbleChartAxis";
 
 export const InteractiveBubbleChart: React.VFC = () => {
   const div = useRef<HTMLDivElement>(null);
@@ -79,8 +76,8 @@ export const InteractiveBubbleChart: React.VFC = () => {
       >
         <div style={{ width: "5%" }}></div>
         {xAxis === "none" && (
-          <div style={{ width: "100%", textAlign: "center" }}>
-            <b style={{ marginLeft: "1%" }}>
+          <div style={{ width: "100%", textAlign: "center", margin: "1%" }}>
+            <b>
               横軸：
               <select name="xAxis" onChange={onChangeXAxis}>
                 <option value="none">なし</option>
@@ -90,8 +87,18 @@ export const InteractiveBubbleChart: React.VFC = () => {
             </b>
           </div>
         )}
-        {xAxis === "sex" && <XAxisSex />}
-        {xAxis === "job" && <XAxisJob />}
+        {xAxis === "sex" && (
+          <InteractiveBubbleChartAxis
+            onResetAxis={onChangeXAxis}
+            patterns={["男性", "女性"]}
+          />
+        )}
+        {xAxis === "job" && (
+          <InteractiveBubbleChartAxis
+            onResetAxis={onChangeXAxis}
+            patterns={["働いていない", "働いている"]}
+          />
+        )}
       </div>
       <div style={{ width: "100%", height: "100%", display: "flex" }}>
         <div
@@ -116,8 +123,18 @@ export const InteractiveBubbleChart: React.VFC = () => {
               </b>
             </div>
           )}
-          {yAxis === "age" && <YAxisAge />}
-          {yAxis === "income" && <YAxisIncome />}
+          {yAxis === "age" && (
+            <InteractiveBubbleChartAxis
+              onResetAxis={onChangeYAxis}
+              patterns={["子ども", "大人", "老人"]}
+            />
+          )}
+          {yAxis === "income" && (
+            <InteractiveBubbleChartAxis
+              onResetAxis={onChangeYAxis}
+              patterns={["低所得", "中所得", "高所得"]}
+            />
+          )}
         </div>
         <div
           ref={div}
