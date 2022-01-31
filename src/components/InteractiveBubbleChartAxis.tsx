@@ -6,20 +6,6 @@ export const InteractiveBubbleChartAxis: React.VFC<{
 }> = ({ onResetAxis, patterns }) => {
   return (
     <div style={{ width: "100%", height: "100%", display: "flex" }}>
-      <button
-        style={{
-          flexGrow: 0,
-          height: "80px",
-          width: "80px",
-          padding: "6px",
-          margin: "4px",
-          border: 0,
-        }}
-        value="none"
-        onClick={onResetAxis}
-      >
-        リセット
-      </button>
       <div
         style={{
           flexGrow: 1,
@@ -42,6 +28,20 @@ export const InteractiveBubbleChartAxis: React.VFC<{
           </div>
         ))}
       </div>
+      <button
+        style={{
+          flexGrow: 0,
+          height: "80px",
+          width: "80px",
+          padding: "6px",
+          margin: "4px",
+          border: 0,
+        }}
+        value="none"
+        onClick={onResetAxis}
+      >
+        リセット
+      </button>
     </div>
   );
 };

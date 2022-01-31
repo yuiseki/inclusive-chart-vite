@@ -46,30 +46,67 @@ export const InteractiveBubbleChart: React.VFC = () => {
   return (
     <div
       style={{
-        height: "100%",
+        height: "94vh",
         display: "flex",
         flexDirection: "column",
         alignItems: "stretch",
         alignContent: "stretch",
       }}
     >
-      <div style={{ flexGrow: 0 }}>
-        <div style={{ width: "100%", textAlign: "center" }}>
-          <b>
-            バブルの大きさ：
-            <select name="bubbleSize" onChange={onChangeBubbleSize}>
-              <option value="none">なし</option>
-              <option value="income">所得</option>
-            </select>
-          </b>
-          <b style={{ marginLeft: "1%" }}>
-            バブルの色：
-            <select name="bubbleColor" onChange={onChangeBubbleColor}>
-              <option value="none">なし</option>
-              <option value="sex">性別</option>
-              <option value="job">仕事</option>
-            </select>
-          </b>
+      <div style={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
+        {/* 縦軸 */}
+        <div style={{ flexGrow: 1, display: "flex", marginRight: "4px" }}>
+          <div
+            ref={div}
+            style={{
+              height: "100%",
+              width: "100%",
+            }}
+          >
+            <AbstractBubbleChart
+              width={width}
+              height={height}
+              rawData={dataList}
+              bubbleSize={bubbleSize}
+              bubbleColor={bubbleColor}
+              xAxis={xAxis}
+              yAxis={yAxis}
+            />
+          </div>
+          <div
+            style={{
+              flexGrow: 1,
+              display: "flex",
+              alignItems: "center",
+              writingMode: "vertical-rl",
+              margin: "4px",
+            }}
+          >
+            {yAxis === "none" && (
+              <div style={{ height: "100%", textAlign: "end" }}>
+                <b>
+                  縦軸：
+                  <select name="yAxis" onChange={onChangeYAxis}>
+                    <option value="none">なし</option>
+                    <option value="age">年齢</option>
+                    <option value="income">所得</option>
+                  </select>
+                </b>
+              </div>
+            )}
+            {yAxis === "age" && (
+              <InteractiveBubbleChartAxis
+                onResetAxis={onChangeYAxis}
+                patterns={["子ども", "大人", "老人"]}
+              />
+            )}
+            {yAxis === "income" && (
+              <InteractiveBubbleChartAxis
+                onResetAxis={onChangeYAxis}
+                patterns={["低所得", "中所得", "高所得"]}
+              />
+            )}
+          </div>
         </div>
         <div
           style={{
@@ -77,11 +114,13 @@ export const InteractiveBubbleChart: React.VFC = () => {
             display: "flex",
             alignItems: "center",
             height: "80px",
+            margin: "4px",
           }}
         >
-          <div style={{ height: "100px", width: "100px" }}></div>
           {xAxis === "none" && (
-            <div style={{ width: "100%", textAlign: "center", margin: "4px" }}>
+            <div
+              style={{ width: "100%", textAlign: "end", marginRight: "80px" }}
+            >
               <b>
                 横軸：
                 <select name="xAxis" onChange={onChangeXAxis}>
@@ -105,57 +144,39 @@ export const InteractiveBubbleChart: React.VFC = () => {
             />
           )}
         </div>
-      </div>
-      <div style={{ flexGrow: 1, display: "flex", marginLeft: "4px" }}>
         <div
           style={{
-            flexGrow: 1,
             display: "flex",
-            alignItems: "center",
-            writingMode: "vertical-rl",
-          }}
-        >
-          {yAxis === "none" && (
-            <div style={{ height: "100%", textAlign: "center" }}>
-              <b>
-                縦軸：
-                <select name="yAxis" onChange={onChangeYAxis}>
-                  <option value="none">なし</option>
-                  <option value="age">年齢</option>
-                  <option value="income">所得</option>
-                </select>
-              </b>
-            </div>
-          )}
-          {yAxis === "age" && (
-            <InteractiveBubbleChartAxis
-              onResetAxis={onChangeYAxis}
-              patterns={["子ども", "大人", "老人"]}
-            />
-          )}
-          {yAxis === "income" && (
-            <InteractiveBubbleChartAxis
-              onResetAxis={onChangeYAxis}
-              patterns={["低所得", "中所得", "高所得"]}
-            />
-          )}
-        </div>
-        <div
-          ref={div}
-          style={{
-            height: "100%",
+            flexGrow: 0,
             width: "100%",
+            height: "80px",
+            verticalAlign: "middle",
+            alignItems: "flex-end",
+            lineHeight: "80px",
+            textAlign: "end",
+            justifyContent: "flex-end",
           }}
         >
-          <AbstractBubbleChart
-            width={width}
-            height={height}
-            rawData={dataList}
-            bubbleSize={bubbleSize}
-            bubbleColor={bubbleColor}
-            xAxis={xAxis}
-            yAxis={yAxis}
-          />
+          <div>
+            <b>
+              バブルの大きさ：
+              <select name="bubbleSize" onChange={onChangeBubbleSize}>
+                <option value="none">なし</option>
+                <option value="income">所得</option>
+              </select>
+            </b>
+          </div>
+          <div>
+            <b>
+              バブルの色：
+              <select name="bubbleColor" onChange={onChangeBubbleColor}>
+                <option value="none">なし</option>
+                <option value="sex">性別</option>
+                <option value="job">仕事</option>
+              </select>
+            </b>
+          </div>
+          <div style={{ width: "80px" }} />
         </div>
       </div>
     </div>
