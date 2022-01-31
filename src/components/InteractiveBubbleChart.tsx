@@ -46,74 +46,78 @@ export const InteractiveBubbleChart: React.VFC = () => {
   return (
     <div
       style={{
-        height: "95%",
-        width: "100%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "stretch",
+        alignContent: "stretch",
       }}
     >
-      <div style={{ width: "100%", textAlign: "center" }}>
-        <b>
-          バブルの大きさ：
-          <select name="bubbleSize" onChange={onChangeBubbleSize}>
-            <option value="none">なし</option>
-            <option value="income">所得</option>
-          </select>
-        </b>
-        <b style={{ marginLeft: "1%" }}>
-          バブルの色：
-          <select name="bubbleColor" onChange={onChangeBubbleColor}>
-            <option value="none">なし</option>
-            <option value="sex">性別</option>
-            <option value="job">仕事</option>
-          </select>
-        </b>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          flexGrow: 1,
-        }}
-      >
-        <div style={{ width: "5%" }}></div>
-        {xAxis === "none" && (
-          <div style={{ width: "100%", textAlign: "center", margin: "1%" }}>
-            <b>
-              横軸：
-              <select name="xAxis" onChange={onChangeXAxis}>
-                <option value="none">なし</option>
-                <option value="sex">性別</option>
-                <option value="job">仕事</option>
-              </select>
-            </b>
-          </div>
-        )}
-        {xAxis === "sex" && (
-          <InteractiveBubbleChartAxis
-            onResetAxis={onChangeXAxis}
-            patterns={["男性", "女性"]}
-          />
-        )}
-        {xAxis === "job" && (
-          <InteractiveBubbleChartAxis
-            onResetAxis={onChangeXAxis}
-            patterns={["働いていない", "働いている"]}
-          />
-        )}
-      </div>
-      <div style={{ width: "100%", height: "100%", display: "flex" }}>
+      <div style={{ flexGrow: 0 }}>
+        <div style={{ width: "100%", textAlign: "center" }}>
+          <b>
+            バブルの大きさ：
+            <select name="bubbleSize" onChange={onChangeBubbleSize}>
+              <option value="none">なし</option>
+              <option value="income">所得</option>
+            </select>
+          </b>
+          <b style={{ marginLeft: "1%" }}>
+            バブルの色：
+            <select name="bubbleColor" onChange={onChangeBubbleColor}>
+              <option value="none">なし</option>
+              <option value="sex">性別</option>
+              <option value="job">仕事</option>
+            </select>
+          </b>
+        </div>
         <div
           style={{
-            width: "5%",
-            height: "100%",
+            flexGrow: 0,
+            display: "flex",
+            alignItems: "center",
+            height: "80px",
+          }}
+        >
+          <div style={{ height: "100px", width: "100px" }}></div>
+          {xAxis === "none" && (
+            <div style={{ width: "100%", textAlign: "center", margin: "4px" }}>
+              <b>
+                横軸：
+                <select name="xAxis" onChange={onChangeXAxis}>
+                  <option value="none">なし</option>
+                  <option value="sex">性別</option>
+                  <option value="job">仕事</option>
+                </select>
+              </b>
+            </div>
+          )}
+          {xAxis === "sex" && (
+            <InteractiveBubbleChartAxis
+              onResetAxis={onChangeXAxis}
+              patterns={["男性", "女性"]}
+            />
+          )}
+          {xAxis === "job" && (
+            <InteractiveBubbleChartAxis
+              onResetAxis={onChangeXAxis}
+              patterns={["働いていない", "働いている"]}
+            />
+          )}
+        </div>
+      </div>
+      <div style={{ flexGrow: 1, display: "flex", marginLeft: "4px" }}>
+        <div
+          style={{
+            flexGrow: 1,
             display: "flex",
             alignItems: "center",
             writingMode: "vertical-rl",
-            marginLeft: "2%",
           }}
         >
           {yAxis === "none" && (
             <div style={{ height: "100%", textAlign: "center" }}>
-              <b style={{ marginLeft: "1%" }}>
+              <b>
                 縦軸：
                 <select name="yAxis" onChange={onChangeYAxis}>
                   <option value="none">なし</option>

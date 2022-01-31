@@ -5,38 +5,43 @@ export const InteractiveBubbleChartAxis: React.VFC<{
   patterns: string[];
 }> = ({ onResetAxis, patterns }) => {
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        flexDirection: "row",
-      }}
-    >
-      <div
+    <div style={{ width: "100%", height: "100%", display: "flex" }}>
+      <button
         style={{
           flexGrow: 0,
-          textAlign: "center",
-          margin: "1%",
-          writingMode: "horizontal-tb",
+          height: "80px",
+          width: "80px",
+          padding: "6px",
+          margin: "4px",
+          border: 0,
+        }}
+        value="none"
+        onClick={onResetAxis}
+      >
+        リセット
+      </button>
+      <div
+        style={{
+          flexGrow: 1,
+          display: "flex",
         }}
       >
-        <button value="none" onClick={onResetAxis}>
-          リセット
-        </button>
+        {patterns.map((pattern) => (
+          <div
+            style={{
+              flexGrow: 1,
+              height: "100%",
+              margin: "4px",
+              lineHeight: "80px",
+              verticalAlign: "middle",
+              textAlign: "center",
+              backgroundColor: "lightgray",
+            }}
+          >
+            {pattern}
+          </div>
+        ))}
       </div>
-      {patterns.map((pattern) => (
-        <div
-          style={{
-            margin: "1%",
-            flexGrow: 1,
-            textAlign: "center",
-            backgroundColor: "lightgray",
-          }}
-        >
-          {pattern}
-        </div>
-      ))}
     </div>
   );
 };
