@@ -49,7 +49,7 @@ export const InteractiveBubbleChart: React.VFC = () => {
   return (
     <div
       style={{
-        height: "94vh",
+        height: "95vh",
         display: "flex",
         flexDirection: "column",
         alignItems: "stretch",
@@ -61,14 +61,14 @@ export const InteractiveBubbleChart: React.VFC = () => {
           display: "flex",
           flexGrow: 0,
           width: "100%",
-          height: "40px",
+          height: "25px",
           verticalAlign: "middle",
           alignItems: "flex-start",
           textAlign: "start",
           justifyContent: "flex-start",
         }}
       >
-        <div style={{ height: "40px" }}>
+        <div>
           <b>
             バブルの大きさ：
             <select name="bubbleSize" onChange={onChangeBubbleSize}>
@@ -83,7 +83,7 @@ export const InteractiveBubbleChart: React.VFC = () => {
             </select>
           </b>
         </div>
-        <div style={{ height: "40px" }}>
+        <div>
           <b>
             バブルの色：
             <select name="bubbleColor" onChange={onChangeBubbleColor}>
