@@ -63,7 +63,7 @@ export const AbstractBubbleChart: React.VFC<{
       if (!maxSize) {
         return 10;
       }
-      const radiusScaler = d3.scaleLinear().domain([1, maxSize]).range([3, 30]);
+      const radiusScaler = d3.scaleLinear().domain([1, maxSize]).range([3, 20]);
       return radiusScaler(value);
     },
     [data, bubbleSize]
@@ -146,7 +146,7 @@ export const AbstractBubbleChart: React.VFC<{
         "x",
         d3
           .forceX()
-          .strength(0.05)
+          .strength(0.1)
           .x((d) => {
             if (d.index === undefined) {
               return center.x;
@@ -158,7 +158,7 @@ export const AbstractBubbleChart: React.VFC<{
         "y",
         d3
           .forceY()
-          .strength(0.05)
+          .strength(0.1)
           .y((d) => {
             if (d.index === undefined) {
               return center.y;
@@ -172,7 +172,7 @@ export const AbstractBubbleChart: React.VFC<{
           if (d.index === undefined) {
             return 1;
           }
-          return onRadiusSize(data[d.index].radius) + 15;
+          return onRadiusSize(data[d.index].radius) + 5;
         })
       );
     simulation.on("tick", () => {

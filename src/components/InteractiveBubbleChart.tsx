@@ -102,18 +102,25 @@ export const InteractiveBubbleChart: React.VFC = () => {
           </div>
           <div
             style={{
-              flexGrow: 1,
+              flexGrow: 0,
               display: "flex",
               alignItems: "center",
               writingMode: "vertical-rl",
-              margin: "4px",
+              width: "44px",
             }}
           >
             {yAxis === "none" && (
-              <div style={{ height: "100%", textAlign: "end" }}>
+              <div style={{ flexGrow: 0, height: "100%", textAlign: "end" }}>
                 <b>
                   縦軸：
-                  <select name="yAxis" onChange={onChangeYAxis}>
+                  <select
+                    style={{
+                      display: "inline-block",
+                      maxWidth: "44px",
+                    }}
+                    name="yAxis"
+                    onChange={onChangeYAxis}
+                  >
                     <option value="none">なし</option>
                     {yAxisDims.map((dim) => {
                       return (
@@ -143,13 +150,13 @@ export const InteractiveBubbleChart: React.VFC = () => {
             flexGrow: 0,
             display: "flex",
             alignItems: "center",
-            height: "80px",
+            height: "44px",
             margin: "4px",
           }}
         >
           {xAxis === "none" && (
             <div
-              style={{ width: "100%", textAlign: "end", marginRight: "80px" }}
+              style={{ width: "100%", textAlign: "end", marginRight: "50px" }}
             >
               <b>
                 横軸：

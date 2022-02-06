@@ -27,7 +27,7 @@ function App() {
 
   return (
     <div className="main">
-      <div style={{ fontSize: "2em", height: "3vh", padding: "1vh" }}>
+      <div style={{ fontSize: "1.5em", height: "2vh", padding: "1vh" }}>
         {tabs.map((tab) => {
           return (
             <label key={tab} htmlFor={`${tab}-button`}>
@@ -43,28 +43,18 @@ function App() {
             </label>
           );
         })}
-      </div>
-      <div style={{ width: "100vw", height: "95vh" }}>
-        {activeTab === "scatter" && <InteractiveScatterChart />}
-        {activeTab === "bubble" && <InteractiveBubbleChart />}
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          bottom: "0",
-          left: "0",
-          display: "table-cell",
-          fontSize: "25px",
-          margin: "5px",
-        }}
-      >
         <a
           href="https://scrapbox.io/c4j/インクルーシブチャート"
           target="_blank"
+          style={{ marginLeft: "5px" }}
         >
           <i className="fab fa-github" />
-          開発に協力する
+          開発に協力
         </a>
+      </div>
+      <div style={{ width: "100vw", height: "96vh" }}>
+        {activeTab === "scatter" && <InteractiveScatterChart />}
+        {activeTab === "bubble" && <InteractiveBubbleChart />}
       </div>
     </div>
   );

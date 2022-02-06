@@ -17,8 +17,9 @@ export const InteractiveBubbleChartAxis: React.VFC<{
             style={{
               flexGrow: 1,
               height: "100%",
+              minWidth: "44px",
               margin: "4px",
-              lineHeight: "80px",
+              lineHeight: "44px",
               verticalAlign: "middle",
               textAlign: "center",
               backgroundColor: "lightgray",
@@ -31,9 +32,9 @@ export const InteractiveBubbleChartAxis: React.VFC<{
       <button
         style={{
           flexGrow: 0,
-          height: "80px",
-          width: "80px",
-          padding: "6px",
+          height: "44px",
+          width: "44px",
+          padding: "4px",
           margin: "4px",
           border: 0,
         }}
