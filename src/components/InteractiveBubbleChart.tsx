@@ -56,9 +56,141 @@ export const InteractiveBubbleChart: React.VFC = () => {
         alignContent: "stretch",
       }}
     >
-      <div style={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
+      <div
+        style={{
+          display: "flex",
+          flexGrow: 0,
+          width: "100%",
+          height: "40px",
+          verticalAlign: "middle",
+          alignItems: "flex-start",
+          textAlign: "start",
+          justifyContent: "flex-start",
+        }}
+      >
+        <div style={{ height: "40px" }}>
+          <b>
+            バブルの大きさ：
+            <select name="bubbleSize" onChange={onChangeBubbleSize}>
+              <option value="none">なし</option>
+              {bubbleSizeDims.map((dim) => {
+                return (
+                  <option key={"bubble-size-" + dim.value} value={dim.value}>
+                    {dim.displayName}
+                  </option>
+                );
+              })}
+            </select>
+          </b>
+        </div>
+        <div style={{ height: "40px" }}>
+          <b>
+            バブルの色：
+            <select name="bubbleColor" onChange={onChangeBubbleColor}>
+              <option value="none">なし</option>
+              <option value="sex">性別</option>
+              <option value="job">仕事</option>
+            </select>
+          </b>
+        </div>
+      </div>
+      <div
+        style={{
+          flexGrow: 0,
+          display: "flex",
+          alignItems: "center",
+          height: "66px",
+          margin: "4px",
+        }}
+      >
+        <div style={{ width: "66px" }} />
+        {xAxis === "none" && (
+          <div
+            style={{ width: "100%", textAlign: "start", marginRight: "70px" }}
+          >
+            <b>
+              横軸：
+              <select name="xAxis" onChange={onChangeXAxis}>
+                <option value="none">なし</option>
+                {xAxisDims.map((dim) => {
+                  return (
+                    <option key={"x-axis-" + dim.value} value={dim.value}>
+                      {dim.displayName}
+                    </option>
+                  );
+                })}
+              </select>
+            </b>
+          </div>
+        )}
+        {xAxisDims
+          .filter((dim) => {
+            return dim.value === xAxis;
+          })
+          .map((dim) => {
+            return (
+              <InteractiveBubbleChartAxis
+                onResetAxis={onChangeXAxis}
+                patterns={dim.patterns}
+              />
+            );
+          })}
+      </div>
+      <div
+        style={{
+          flexGrow: 1,
+          display: "flex",
+          marginLeft: "4px",
+        }}
+      >
         {/* 縦軸 */}
-        <div style={{ flexGrow: 1, display: "flex", marginRight: "4px" }}>
+        <div
+          style={{
+            flexGrow: 0,
+            display: "flex",
+            writingMode: "vertical-rl",
+            width: "66px",
+            marginLeft: "4px",
+          }}
+        >
+          {yAxis === "none" && (
+            <div style={{ flexGrow: 1, height: "100%", textAlign: "start" }}>
+              <b>
+                縦軸：
+                <select
+                  style={{
+                    display: "inline-block",
+                    maxWidth: "66px",
+                  }}
+                  name="yAxis"
+                  onChange={onChangeYAxis}
+                >
+                  <option value="none">なし</option>
+                  {yAxisDims.map((dim) => {
+                    return (
+                      <option key={"y-axis-" + dim.value} value={dim.value}>
+                        {dim.displayName}
+                      </option>
+                    );
+                  })}
+                </select>
+              </b>
+            </div>
+          )}
+          {yAxisDims
+            .filter((dim) => {
+              return dim.value === yAxis;
+            })
+            .map((dim) => {
+              return (
+                <InteractiveBubbleChartAxis
+                  onResetAxis={onChangeYAxis}
+                  patterns={dim.patterns}
+                />
+              );
+            })}
+        </div>
+        <div style={{ flexGrow: 1, display: "flex" }}>
           <div
             ref={div}
             style={{
@@ -76,132 +208,6 @@ export const InteractiveBubbleChart: React.VFC = () => {
               yAxis={yAxis}
             />
           </div>
-          <div
-            style={{
-              flexGrow: 0,
-              display: "flex",
-              alignItems: "center",
-              writingMode: "vertical-rl",
-              width: "66px",
-            }}
-          >
-            {yAxis === "none" && (
-              <div style={{ flexGrow: 0, height: "100%", textAlign: "end" }}>
-                <b>
-                  縦軸：
-                  <select
-                    style={{
-                      display: "inline-block",
-                      maxWidth: "66px",
-                    }}
-                    name="yAxis"
-                    onChange={onChangeYAxis}
-                  >
-                    <option value="none">なし</option>
-                    {yAxisDims.map((dim) => {
-                      return (
-                        <option key={"y-axis-" + dim.value} value={dim.value}>
-                          {dim.displayName}
-                        </option>
-                      );
-                    })}
-                  </select>
-                </b>
-              </div>
-            )}
-            {yAxisDims
-              .filter((dim) => {
-                return dim.value === yAxis;
-              })
-              .map((dim) => {
-                return (
-                  <InteractiveBubbleChartAxis
-                    onResetAxis={onChangeYAxis}
-                    patterns={dim.patterns}
-                  />
-                );
-              })}
-          </div>
-        </div>
-        <div
-          style={{
-            flexGrow: 0,
-            display: "flex",
-            alignItems: "center",
-            height: "66px",
-            margin: "4px",
-          }}
-        >
-          {xAxis === "none" && (
-            <div
-              style={{ width: "100%", textAlign: "end", marginRight: "70px" }}
-            >
-              <b>
-                横軸：
-                <select name="xAxis" onChange={onChangeXAxis}>
-                  <option value="none">なし</option>
-                  {xAxisDims.map((dim) => {
-                    return (
-                      <option key={"x-axis-" + dim.value} value={dim.value}>
-                        {dim.displayName}
-                      </option>
-                    );
-                  })}
-                </select>
-              </b>
-            </div>
-          )}
-          {xAxisDims
-            .filter((dim) => {
-              return dim.value === xAxis;
-            })
-            .map((dim) => {
-              return (
-                <InteractiveBubbleChartAxis
-                  onResetAxis={onChangeXAxis}
-                  patterns={dim.patterns}
-                />
-              );
-            })}
-        </div>
-        <div
-          style={{
-            display: "flex",
-            flexGrow: 0,
-            width: "100%",
-            height: "80px",
-            verticalAlign: "middle",
-            alignItems: "flex-end",
-            textAlign: "end",
-            justifyContent: "flex-end",
-          }}
-        >
-          <div style={{ height: "80px" }}>
-            <b>
-              バブルの大きさ：
-              <select name="bubbleSize" onChange={onChangeBubbleSize}>
-                <option value="none">なし</option>
-                {bubbleSizeDims.map((dim) => {
-                  return (
-                    <option key={"bubble-size-" + dim.value} value={dim.value}>
-                      {dim.displayName}
-                    </option>
-                  );
-                })}
-              </select>
-            </b>
-          </div>
-          <div style={{ height: "80px" }}>
-            <b>
-              バブルの色：
-              <select name="bubbleColor" onChange={onChangeBubbleColor}>
-                <option value="none">なし</option>
-                <option value="sex">性別</option>
-                <option value="job">仕事</option>
-              </select>
-            </b>
-          </div>
-          <div style={{ width: "80px" }} />
         </div>
       </div>
     </div>
