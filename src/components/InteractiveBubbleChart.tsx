@@ -106,7 +106,7 @@ export const InteractiveBubbleChart: React.VFC = () => {
               display: "flex",
               alignItems: "center",
               writingMode: "vertical-rl",
-              width: "44px",
+              width: "66px",
             }}
           >
             {yAxis === "none" && (
@@ -116,7 +116,7 @@ export const InteractiveBubbleChart: React.VFC = () => {
                   <select
                     style={{
                       display: "inline-block",
-                      maxWidth: "44px",
+                      maxWidth: "66px",
                     }}
                     name="yAxis"
                     onChange={onChangeYAxis}
@@ -150,13 +150,13 @@ export const InteractiveBubbleChart: React.VFC = () => {
             flexGrow: 0,
             display: "flex",
             alignItems: "center",
-            height: "44px",
+            height: "66px",
             margin: "4px",
           }}
         >
           {xAxis === "none" && (
             <div
-              style={{ width: "100%", textAlign: "end", marginRight: "50px" }}
+              style={{ width: "100%", textAlign: "end", marginRight: "70px" }}
             >
               <b>
                 横軸：

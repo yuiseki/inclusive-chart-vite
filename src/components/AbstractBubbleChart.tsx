@@ -61,9 +61,12 @@ export const AbstractBubbleChart: React.VFC<{
       }
       const maxSize = d3.max(data, (d) => +d.radius);
       if (!maxSize) {
-        return 10;
+        return height / 40;
       }
-      const radiusScaler = d3.scaleLinear().domain([1, maxSize]).range([3, 20]);
+      const radiusScaler = d3
+        .scaleLinear()
+        .domain([1, maxSize])
+        .range([height / 100, height / 20]);
       return radiusScaler(value);
     },
     [data, bubbleSize]
