@@ -2,6 +2,9 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import { forceSimulation } from "d3-force";
 import { select } from "d3";
+import dimList from "../data/sampleDims.json";
+
+type dimStr = keyof typeof dimList;
 
 type BubbleData = {
   index: number;
@@ -16,14 +19,15 @@ type BubbleData = {
 type RawData = {
   [key: string]: number | string;
 }[];
+
 export const AbstractBubbleChart: React.VFC<{
   width: number;
   height: number;
   rawData: RawData;
-  bubbleSize: string;
-  bubbleColor: string;
-  xAxis: string;
-  yAxis: string;
+  bubbleSize: dimStr;
+  bubbleColor: dimStr;
+  xAxis: dimStr;
+  yAxis: dimStr;
 }> = ({ width, height, rawData, bubbleSize, bubbleColor, xAxis, yAxis }) => {
   const [data, setData] = useState<BubbleData[] | undefined>(undefined);
   const ref = useRef<SVGSVGElement>(null);
@@ -74,20 +78,8 @@ export const AbstractBubbleChart: React.VFC<{
 
   const onFillColor = useCallback(
     (value) => {
-      let domain: string[] = [];
-      let range: string[] = [];
-      switch (bubbleColor) {
-        case "sex":
-          domain = ["male", "female"];
-          range = ["blue", "red"];
-          break;
-        case "job":
-          domain = ["0", "1"];
-          range = ["lightgray", "black"];
-          break;
-        default:
-          break;
-      }
+      let domain = dimList[bubbleColor].domain;
+      let range = dimList[bubbleColor].range;
       const fillColor = d3
         .scaleOrdinal<string>()
         .domain(domain)
@@ -100,16 +92,7 @@ export const AbstractBubbleChart: React.VFC<{
 
   const onForceX = useCallback(
     (value) => {
-      let domain: string[] = [];
-      switch (xAxis) {
-        case "sex":
-          domain = ["male", "female"];
-          break;
-        case "job":
-          domain = ["0", "1"];
-        default:
-          break;
-      }
+      let domain: string[] = dimList[xAxis].domain;
       const xScaler = d3
         .scaleOrdinal<number>()
         .domain(domain)
@@ -198,7 +181,7 @@ export const AbstractBubbleChart: React.VFC<{
         .data(data)
         .join("text")
         .style("fill", "darkGray")
-        .style("font-size", "10px")
+        .style("font-size", "12px")
         .attr("x", (d) => d.x)
         .attr("y", (d) => d.y)
         .attr("text-anchor", "middle")

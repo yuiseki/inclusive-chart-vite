@@ -14,6 +14,7 @@ export const InteractiveBubbleChartAxis: React.VFC<{
       >
         {patterns.map((pattern) => (
           <div
+            key={"axis-" + pattern}
             style={{
               flexGrow: 1,
               height: "100%",

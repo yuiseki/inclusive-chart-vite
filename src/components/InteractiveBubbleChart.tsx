@@ -1,50 +1,26 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AbstractBubbleChart } from "./AbstractBubbleChart";
-
-import dataList from "../data/sample.json";
 import { InteractiveBubbleChartAxis } from "./InteractiveBubbleChartAxis";
 
-const ageDim = {
-  value: "age",
-  displayName: "年齢",
-  patterns: ["子ども", "大人", "高齢者"],
-};
-const incomeDim = {
-  value: "income",
-  displayName: "所得",
-  patterns: ["低所得", "中所得", "高所得"],
-};
-const satisfactionDim = {
-  value: "satisfaction",
-  displayName: "満足度",
-  patterns: ["満足していない", "満足している"],
-};
-const sexDim = {
-  value: "sex",
-  displayName: "性別",
-  patterns: ["男性", "女性"],
-};
-const jobDim = {
-  value: "job",
-  displayName: "仕事",
-  patterns: ["働いていない", "働いている"],
-};
+import dataList from "../data/sample.json";
+import dimList from "../data/sampleDims.json";
+type dimStr = keyof typeof dimList;
 
 // 連続値
-const yAxisDims = [ageDim, incomeDim, satisfactionDim];
-// 離散値
-const xAxisDims = [sexDim, jobDim];
+const bubbleSizeDims = [dimList.income, dimList.satisfaction];
 // 連続値
-const bubbleSizeDims = [incomeDim, satisfactionDim];
+const yAxisDims = [dimList.age, dimList.income, dimList.satisfaction];
+// 離散値
+const xAxisDims = [dimList.sex, dimList.job];
 
 export const InteractiveBubbleChart: React.VFC = () => {
   const div = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState<number>(window.innerWidth - 100);
   const [height, setHeight] = useState<number>(window.innerHeight - 100);
-  const [bubbleSize, setBubbleSize] = useState("none");
-  const [bubbleColor, setBubbleColor] = useState("none");
-  const [xAxis, setXAxis] = useState("none");
-  const [yAxis, setYAxis] = useState("none");
+  const [bubbleSize, setBubbleSize] = useState<dimStr>("none");
+  const [bubbleColor, setBubbleColor] = useState<dimStr>("none");
+  const [xAxis, setXAxis] = useState<dimStr>("none");
+  const [yAxis, setYAxis] = useState<dimStr>("none");
 
   useEffect(() => {
     if (!div.current) {
@@ -124,7 +100,9 @@ export const InteractiveBubbleChart: React.VFC = () => {
                     <option value="none">なし</option>
                     {yAxisDims.map((dim) => {
                       return (
-                        <option value={dim.value}>{dim.displayName}</option>
+                        <option key={"y-axis-" + dim.value} value={dim.value}>
+                          {dim.displayName}
+                        </option>
                       );
                     })}
                   </select>
@@ -163,7 +141,11 @@ export const InteractiveBubbleChart: React.VFC = () => {
                 <select name="xAxis" onChange={onChangeXAxis}>
                   <option value="none">なし</option>
                   {xAxisDims.map((dim) => {
-                    return <option value={dim.value}>{dim.displayName}</option>;
+                    return (
+                      <option key={"x-axis-" + dim.value} value={dim.value}>
+                        {dim.displayName}
+                      </option>
+                    );
                   })}
                 </select>
               </b>
@@ -200,7 +182,11 @@ export const InteractiveBubbleChart: React.VFC = () => {
               <select name="bubbleSize" onChange={onChangeBubbleSize}>
                 <option value="none">なし</option>
                 {bubbleSizeDims.map((dim) => {
-                  return <option value={dim.value}>{dim.displayName}</option>;
+                  return (
+                    <option key={"bubble-size-" + dim.value} value={dim.value}>
+                      {dim.displayName}
+                    </option>
+                  );
                 })}
               </select>
             </b>

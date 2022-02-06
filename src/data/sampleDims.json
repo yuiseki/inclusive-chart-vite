@@ -1,0 +1,44 @@
+{
+  "none": {
+    "value": "none",
+    "displayName": "なし",
+    "patterns": [],
+    "domain": [],
+    "range": []
+  },
+  "age": {
+    "value": "age",
+    "displayName": "年齢",
+    "patterns": ["子ども", "大人", "高齢者"],
+    "domain": [],
+    "range": []
+  },
+  "income": {
+    "value": "income",
+    "displayName": "所得",
+    "patterns": ["低所得", "中所得", "高所得"],
+    "domain": [],
+    "range": []
+  },
+  "satisfaction": {
+    "value": "satisfaction",
+    "displayName": "満足度",
+    "patterns": ["満足していない", "満足している"],
+    "domain": [],
+    "range": []
+  },
+  "sex": {
+    "value": "sex",
+    "displayName": "性別",
+    "patterns": ["男性", "女性"],
+    "domain": ["male", "female"],
+    "range": ["blue", "red"]
+  },
+  "job": {
+    "value": "job",
+    "displayName": "仕事",
+    "patterns": ["働いていない", "働いている"],
+    "domain": ["0", "1"],
+    "range": ["lightGray", "black"]
+  }
+}
