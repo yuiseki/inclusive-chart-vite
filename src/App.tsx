@@ -48,6 +48,24 @@ function App() {
         {activeTab === "scatter" && <InteractiveScatterChart />}
         {activeTab === "bubble" && <InteractiveBubbleChart />}
       </div>
+      <div
+        style={{
+          position: "absolute",
+          bottom: "0",
+          left: "0",
+          display: "table-cell",
+          fontSize: "25px",
+          margin: "5px",
+        }}
+      >
+        <a
+          href="https://scrapbox.io/c4j/インクルーシブチャート"
+          target="_blank"
+        >
+          <i className="fab fa-github" />
+          開発に協力する
+        </a>
+      </div>
     </div>
   );
 }

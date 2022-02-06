@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
-import { forceSimulation, SimulationNodeDatum } from "d3-force";
+import { forceSimulation } from "d3-force";
 import { select } from "d3";
 
 type BubbleData = {
@@ -116,19 +116,6 @@ export const AbstractBubbleChart: React.VFC<{
     },
     [center, xAxis]
   );
-
-  /*
-  const onForceY = useCallback(
-    (domain) => {
-      const yScaleOrdinal = d3
-        .scaleOrdinal<number>()
-        .domain(["0", "1"])
-        .range([center.y - height / 4, center.y + height / 4])
-        .unknown(0);
-      return yScaleOrdinal(domain);
-    },
-    [width, height]
-  );*/
 
   const onForceY = useCallback(
     (value) => {
