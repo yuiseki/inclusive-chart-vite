@@ -30,10 +30,11 @@ const jobDim = {
   patterns: ["働いていない", "働いている"],
 };
 
+// 連続値
 const yAxisDims = [ageDim, incomeDim, satisfactionDim];
-
+// 離散値
 const xAxisDims = [sexDim, jobDim];
-
+// 連続値
 const bubbleSizeDims = [incomeDim, satisfactionDim];
 
 export const InteractiveBubbleChart: React.VFC = () => {

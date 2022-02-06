@@ -194,6 +194,7 @@ export const AbstractBubbleChart: React.VFC<{
         .data(data)
         .join("circle")
         .style("fill", (d) => onFillColor(d.color))
+        .style("stroke", "black")
         .attr("cx", (d) => {
           return (d.x = Math.max(30, Math.min(width - 30, d.x)));
         })
