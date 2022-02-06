@@ -190,7 +190,9 @@ export const InteractiveBubbleChart: React.VFC = () => {
               );
             })}
         </div>
-        <div style={{ flexGrow: 1, display: "flex" }}>
+        <div style={{ width: "70px" }} />
+        <div style={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
+          <div style={{ height: "70px" }} />
           <div
             ref={div}
             style={{
