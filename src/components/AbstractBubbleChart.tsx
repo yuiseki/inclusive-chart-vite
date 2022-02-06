@@ -11,6 +11,7 @@ type BubbleData = {
   color: string;
   xAxis: string;
   yAxis: string;
+  title: string;
 };
 type RawData = {
   [key: string]: number | string;
@@ -38,15 +39,16 @@ export const AbstractBubbleChart: React.VFC<{
 
   useEffect(() => {
     console.log(xAxis, yAxis);
-    const newData = rawData.map((d, i) => {
+    const newData = rawData.map((rawD, i) => {
       return {
         index: i,
         x: center.x,
         y: center.y,
-        radius: d[bubbleSize] as number,
-        color: d[bubbleColor] as string,
-        xAxis: d[xAxis] as string,
-        yAxis: d[yAxis] as string,
+        radius: rawD[bubbleSize] as number,
+        color: rawD[bubbleColor] as string,
+        xAxis: rawD[xAxis] as string,
+        yAxis: rawD[yAxis] as string,
+        title: ((rawD.name as string) + "@" + rawD.address) as string,
       };
     });
     setData(newData);
@@ -140,7 +142,7 @@ export const AbstractBubbleChart: React.VFC<{
       const yScaler = d3
         .scaleLinear()
         .domain([0, maxSize])
-        .range([10, height - 10])
+        .range([10, height - 40])
         .unknown(center.y);
       return yScaler(parseInt(value));
     },
@@ -183,19 +185,35 @@ export const AbstractBubbleChart: React.VFC<{
           if (d.index === undefined) {
             return 1;
           }
-          return onRadiusSize(data[d.index].radius) + 5;
+          return onRadiusSize(data[d.index].radius) + 15;
         })
       );
-    simulation.on("tick", () =>
+    simulation.on("tick", () => {
       svg
         .selectAll("circle")
         .data(data)
         .join("circle")
         .style("fill", (d) => onFillColor(d.color))
-        .attr("cx", (d) => d.x)
-        .attr("cy", (d) => d.y)
-        .attr("r", (d) => onRadiusSize(d.radius))
-    );
+        .attr("cx", (d) => {
+          return (d.x = Math.max(30, Math.min(width - 30, d.x)));
+        })
+        .attr("cy", (d) => {
+          return (d.y = Math.max(30, Math.min(height - 30, d.y)));
+        })
+        .attr("r", (d) => onRadiusSize(d.radius));
+
+      svg
+        .selectAll("text")
+        .data(data)
+        .join("text")
+        .style("fill", "darkGray")
+        .style("font-size", "10px")
+        .attr("x", (d) => d.x)
+        .attr("y", (d) => d.y)
+        .attr("text-anchor", "middle")
+        .attr("dominant-baseline", "middle")
+        .text((d) => d.title);
+    });
   }, [data, center, xAxis, yAxis]);
 
   return (

@@ -1,14 +1,40 @@
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { AbstractBubbleChart } from "./AbstractBubbleChart";
 
 import dataList from "../data/sample.json";
 import { InteractiveBubbleChartAxis } from "./InteractiveBubbleChartAxis";
+
+const ageDim = {
+  value: "age",
+  displayName: "年齢",
+  patterns: ["子ども", "大人", "高齢者"],
+};
+const incomeDim = {
+  value: "income",
+  displayName: "所得",
+  patterns: ["低所得", "中所得", "高所得"],
+};
+const satisfactionDim = {
+  value: "satisfaction",
+  displayName: "満足度",
+  patterns: ["満足していない", "満足している"],
+};
+const sexDim = {
+  value: "sex",
+  displayName: "性別",
+  patterns: ["男性", "女性"],
+};
+const jobDim = {
+  value: "job",
+  displayName: "仕事",
+  patterns: ["働いていない", "働いている"],
+};
+
+const yAxisDims = [ageDim, incomeDim, satisfactionDim];
+
+const xAxisDims = [sexDim, jobDim];
+
+const bubbleSizeDims = [incomeDim, satisfactionDim];
 
 export const InteractiveBubbleChart: React.VFC = () => {
   const div = useRef<HTMLDivElement>(null);
@@ -88,24 +114,27 @@ export const InteractiveBubbleChart: React.VFC = () => {
                   縦軸：
                   <select name="yAxis" onChange={onChangeYAxis}>
                     <option value="none">なし</option>
-                    <option value="age">年齢</option>
-                    <option value="income">所得</option>
+                    {yAxisDims.map((dim) => {
+                      return (
+                        <option value={dim.value}>{dim.displayName}</option>
+                      );
+                    })}
                   </select>
                 </b>
               </div>
             )}
-            {yAxis === "age" && (
-              <InteractiveBubbleChartAxis
-                onResetAxis={onChangeYAxis}
-                patterns={["子ども", "大人", "老人"]}
-              />
-            )}
-            {yAxis === "income" && (
-              <InteractiveBubbleChartAxis
-                onResetAxis={onChangeYAxis}
-                patterns={["低所得", "中所得", "高所得"]}
-              />
-            )}
+            {yAxisDims
+              .filter((dim) => {
+                return dim.value === yAxis;
+              })
+              .map((dim) => {
+                return (
+                  <InteractiveBubbleChartAxis
+                    onResetAxis={onChangeYAxis}
+                    patterns={dim.patterns}
+                  />
+                );
+              })}
           </div>
         </div>
         <div
@@ -125,24 +154,25 @@ export const InteractiveBubbleChart: React.VFC = () => {
                 横軸：
                 <select name="xAxis" onChange={onChangeXAxis}>
                   <option value="none">なし</option>
-                  <option value="sex">性別</option>
-                  <option value="job">仕事</option>
+                  {xAxisDims.map((dim) => {
+                    return <option value={dim.value}>{dim.displayName}</option>;
+                  })}
                 </select>
               </b>
             </div>
           )}
-          {xAxis === "sex" && (
-            <InteractiveBubbleChartAxis
-              onResetAxis={onChangeXAxis}
-              patterns={["男性", "女性"]}
-            />
-          )}
-          {xAxis === "job" && (
-            <InteractiveBubbleChartAxis
-              onResetAxis={onChangeXAxis}
-              patterns={["働いていない", "働いている"]}
-            />
-          )}
+          {xAxisDims
+            .filter((dim) => {
+              return dim.value === xAxis;
+            })
+            .map((dim) => {
+              return (
+                <InteractiveBubbleChartAxis
+                  onResetAxis={onChangeXAxis}
+                  patterns={dim.patterns}
+                />
+              );
+            })}
         </div>
         <div
           style={{
@@ -161,7 +191,9 @@ export const InteractiveBubbleChart: React.VFC = () => {
               バブルの大きさ：
               <select name="bubbleSize" onChange={onChangeBubbleSize}>
                 <option value="none">なし</option>
-                <option value="income">所得</option>
+                {bubbleSizeDims.map((dim) => {
+                  return <option value={dim.value}>{dim.displayName}</option>;
+                })}
               </select>
             </b>
           </div>
