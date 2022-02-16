@@ -11,7 +11,8 @@ type BubbleData = {
   x: number;
   y: number;
   radius: number;
-  color: string;
+  //color: string;
+  color: number;
   xAxis: string;
   yAxis: string;
   title: string;
@@ -43,16 +44,37 @@ export const AbstractBubbleChart: React.VFC<{
 
   useEffect(() => {
     console.log(xAxis, yAxis);
+    
+    var round_num = 1;
+    if (yAxis === "age") {
+      round_num = 20;
+    } else if (yAxis == "income"){
+      round_num = 200;
+    } else if (yAxis === "satisfaction") {
+      round_num = 2;
+    }
+    
     const newData = rawData.map((rawD, i) => {
       return {
         index: i,
         x: center.x,
         y: center.y,
-        radius: rawD[bubbleSize] as number,
-        color: rawD[bubbleColor] as string,
+        //radius: rawD[bubbleSize] as number,
+        radius: rawData.filter(n => n[xAxis] === rawD[xAxis] && 
+          (rawD[yAxis] == null ||
+          Math.floor(Number(n[yAxis]) / round_num) === Math.floor(Number(rawD[yAxis]) / round_num))).length as number,
+        //color: rawD[bubbleColor] as string,
+        color: rawData.filter(n => n[xAxis] === rawD[xAxis] && (n[bubbleColor] === "1" || n[bubbleColor] === "female") &&
+          (rawD[yAxis] == null ||
+          Math.floor(Number(n[yAxis]) / round_num) === Math.floor(Number(rawD[yAxis]) / round_num))).length / 
+          (rawData.filter(n => n[xAxis] === rawD[xAxis] && 
+            (rawD[yAxis] == null ||
+            Math.floor(Number(n[yAxis]) / round_num) === Math.floor(Number(rawD[yAxis]) / round_num))).length),
         xAxis: rawD[xAxis] as string,
-        yAxis: rawD[yAxis] as string,
-        title: ((rawD.name as string) + "@" + rawD.address) as string,
+        //yAxis: rawD[yAxis] as string,
+        yAxis: String(Math.floor(Number(rawD[yAxis]) / round_num) * round_num),
+        //title: ((rawD.name as string) + "@" + rawD.address) as string,
+        title: "",
       };
     });
     setData(newData);
@@ -60,6 +82,7 @@ export const AbstractBubbleChart: React.VFC<{
 
   const onRadiusSize = useCallback(
     (value) => {
+      value = value * 2;
       if (!data) {
         return 1;
       }
@@ -81,10 +104,11 @@ export const AbstractBubbleChart: React.VFC<{
       let domain = dimList[bubbleColor].domain;
       let range = dimList[bubbleColor].range;
       const fillColor = d3
-        .scaleOrdinal<string>()
-        .domain(domain)
-        .range(range)
-        .unknown("black");
+        //.scaleOrdinal<string>()
+        .interpolate("blue", "red")
+        //.domain(domain)
+        //.range(range)
+        //.unknown("black");
       return fillColor(value);
     },
     [bubbleColor]
@@ -156,9 +180,11 @@ export const AbstractBubbleChart: React.VFC<{
         "collision",
         d3.forceCollide().radius((d) => {
           if (d.index === undefined) {
-            return 1;
+            //return 1;
+            return 0;
           }
-          return onRadiusSize(data[d.index].radius) + 5;
+          //return onRadiusSize(data[d.index].radius) + 5;
+          return 0;
         })
       );
     simulation.on("tick", () => {
@@ -167,7 +193,8 @@ export const AbstractBubbleChart: React.VFC<{
         .data(data)
         .join("circle")
         .style("fill", (d) => onFillColor(d.color))
-        .style("stroke", "black")
+        //.style("stroke", "black")
+        .style("stroke", "none")
         .attr("cx", (d) => {
           return (d.x = Math.max(30, Math.min(width - 30, d.x)));
         })
