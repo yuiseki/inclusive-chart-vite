@@ -17,14 +17,14 @@
     "value": "xValue",
     "displayName": "x",
     "patterns": [],
-    "domain": ["top", "bottom"],
+    "domain": ["top", "middle", "bottom"],
     "range": []
   },
   "yValue": {
     "value": "yValue",
     "displayName": "y",
     "patterns": [],
-    "domain": ["left", "right"],
+    "domain": ["left", "middle", "right"],
     "range": []
   }
 }

@@ -1,6 +1,4 @@
 [
-  {"sizeValue":"1","colorValue":"hoge","xValue":"top","yValue":"left"},
-  {"sizeValue":"25","colorValue":"fuga","xValue":"top","yValue":"right"},
-  {"sizeValue":"75","colorValue":"piyo","xValue":"bottom","yValue":"left"},
-  {"sizeValue":"100","colorValue":"puni","xValue":"bottom","yValue":"right"}
+  {"sizeValue":"1","colorValue":"hoge","xValue":"top","yValue":"left", "name": "you"},
+  {"sizeValue":"12544000","colorValue":"fuga","xValue":"bottom","yValue":"right", "name": "others"}
 ]
