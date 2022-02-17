@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AbstractBubbleChart } from "./AbstractBubbleChart";
 
-import dataList from "../data/test.json";
-import dimList from "../data/testDim.json";
+import dataList from "../data/practice.json";
+import dimList from "../data/practiceDim.json";
 
 export const PracticeBubbleChart: React.VFC = () => {
   const div = useRef<HTMLDivElement>(null);
