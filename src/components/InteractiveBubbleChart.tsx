@@ -203,7 +203,7 @@ export const InteractiveBubbleChart: React.VFC = () => {
             <AbstractBubbleChart
               width={width}
               height={height}
-              rawData={dataList}
+              inputData={dataList}
               bubbleSize={bubbleSize}
               bubbleColor={bubbleColor}
               xAxis={xAxis}

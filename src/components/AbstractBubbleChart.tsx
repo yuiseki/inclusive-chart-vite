@@ -23,12 +23,12 @@ type RawData = {
 export const AbstractBubbleChart: React.VFC<{
   width: number;
   height: number;
-  rawData: RawData;
+  inputData: RawData;
   bubbleSize: dimStr;
   bubbleColor: dimStr;
   xAxis: dimStr;
   yAxis: dimStr;
-}> = ({ width, height, rawData, bubbleSize, bubbleColor, xAxis, yAxis }) => {
+}> = ({ width, height, inputData, bubbleSize, bubbleColor, xAxis, yAxis }) => {
   const [data, setData] = useState<BubbleData[] | undefined>(undefined);
   const ref = useRef<SVGSVGElement>(null);
   const [center, setCenter] = useState({ x: width / 2, y: height / 2 });
@@ -43,7 +43,7 @@ export const AbstractBubbleChart: React.VFC<{
 
   useEffect(() => {
     console.log(xAxis, yAxis);
-    const newData = rawData.map((rawD, i) => {
+    const newData = inputData.map((rawD, i) => {
       return {
         index: i,
         x: center.x,
@@ -56,7 +56,7 @@ export const AbstractBubbleChart: React.VFC<{
       };
     });
     setData(newData);
-  }, [rawData, center, bubbleSize, bubbleColor, xAxis, yAxis]);
+  }, [inputData, center, bubbleSize, bubbleColor, xAxis, yAxis]);
 
   const onRadiusSize = useCallback(
     (value) => {
