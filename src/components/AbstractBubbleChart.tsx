@@ -2,9 +2,22 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import { forceSimulation } from "d3-force";
 import { select } from "d3";
-import dimList from "../data/sampleDims.json";
 
-type dimStr = keyof typeof dimList;
+type RawData = {
+  [key: string]: number | string;
+};
+type RawDataList = RawData[];
+
+type DimDataKeys = "value" | "displayName" | "patterns" | "domain" | "range";
+type DimData = {
+  [key: string]: {
+    [key in DimDataKeys]: string | string[];
+  };
+};
+
+type DimList = {
+  [key: string]: DimData;
+}[];
 
 type BubbleData = {
   index: number;
@@ -14,21 +27,30 @@ type BubbleData = {
   color: string;
   xAxis: string;
   yAxis: string;
-  title: string;
+  title?: string;
 };
-type RawData = {
-  [key: string]: number | string;
-}[];
 
 export const AbstractBubbleChart: React.VFC<{
   width: number;
   height: number;
-  inputData: RawData;
-  bubbleSize: dimStr;
-  bubbleColor: dimStr;
-  xAxis: dimStr;
-  yAxis: dimStr;
-}> = ({ width, height, inputData, bubbleSize, bubbleColor, xAxis, yAxis }) => {
+  inputData: RawDataList;
+  inputDimList: DimData;
+  bubbleSize: string;
+  bubbleColor: string;
+  bubbleTitle?: (d: RawData) => string;
+  xAxis: string;
+  yAxis: string;
+}> = ({
+  width,
+  height,
+  inputData,
+  inputDimList,
+  bubbleSize,
+  bubbleColor,
+  bubbleTitle,
+  xAxis,
+  yAxis,
+}) => {
   const [data, setData] = useState<BubbleData[] | undefined>(undefined);
   const ref = useRef<SVGSVGElement>(null);
   const [center, setCenter] = useState({ x: width / 2, y: height / 2 });
@@ -38,11 +60,9 @@ export const AbstractBubbleChart: React.VFC<{
       return;
     }
     setCenter({ x: width / 2, y: height / 2 });
-    console.log(center);
   }, [width, height]);
 
   useEffect(() => {
-    console.log(xAxis, yAxis);
     const newData = inputData.map((rawD, i) => {
       return {
         index: i,
@@ -52,7 +72,7 @@ export const AbstractBubbleChart: React.VFC<{
         color: rawD[bubbleColor] as string,
         xAxis: rawD[xAxis] as string,
         yAxis: rawD[yAxis] as string,
-        title: ((rawD.name as string) + "@" + rawD.address) as string,
+        title: bubbleTitle ? bubbleTitle(rawD) : undefined,
       };
     });
     setData(newData);
@@ -78,8 +98,8 @@ export const AbstractBubbleChart: React.VFC<{
 
   const onFillColor = useCallback(
     (value) => {
-      let domain = dimList[bubbleColor].domain;
-      let range = dimList[bubbleColor].range;
+      let domain = inputDimList[bubbleColor].domain;
+      let range = inputDimList[bubbleColor].range;
       const fillColor = d3
         .scaleOrdinal<string>()
         .domain(domain)
@@ -92,32 +112,70 @@ export const AbstractBubbleChart: React.VFC<{
 
   const onForceX = useCallback(
     (value) => {
-      let domain: string[] = dimList[xAxis].domain;
-      const xScaler = d3
-        .scaleOrdinal<number>()
-        .domain(domain)
-        .range([center.x - width / 4, center.x + width / 4])
-        .unknown(center.x);
-      return xScaler(value);
+      let domain: string[] = inputDimList[xAxis].domain as string[];
+      if (domain.length > 0) {
+        console.log("x ordinal", domain);
+        const range = Array.from(Array(domain.length), (_d, i) => {
+          return (width / domain.length) * i + width / domain.length / 2;
+        });
+        console.log("x ordinal", range);
+        const xScaler = d3
+          .scaleOrdinal<number>()
+          .domain(domain)
+          .range(range)
+          .unknown(center.x);
+        return xScaler(value);
+      } else {
+        console.log("x linear", value);
+        if (!data) {
+          return center.x;
+        }
+        const maxSize = d3.max(data, (d) => +d.xAxis);
+        if (!maxSize) {
+          return center.x;
+        }
+        const xScaler = d3
+          .scaleLinear()
+          .domain([0, maxSize])
+          .range([40, width - 40])
+          .unknown(center.x);
+        return xScaler(parseInt(value));
+      }
     },
     [center, xAxis]
   );
 
   const onForceY = useCallback(
     (value) => {
-      if (!data) {
-        return center.y;
+      let domain: string[] = inputDimList[yAxis].domain as string[];
+      if (domain.length > 0) {
+        console.log("y ordinal", domain);
+        const range = Array.from(Array(domain.length), (_d, i) => {
+          return (height / domain.length) * i + height / domain.length / 2;
+        });
+        console.log("y ordinal", range);
+        const yScaler = d3
+          .scaleOrdinal<number>()
+          .domain(domain)
+          .range(range)
+          .unknown(center.y);
+        return yScaler(value);
+      } else {
+        console.log("y linear", value);
+        if (!data) {
+          return center.y;
+        }
+        const maxSize = d3.max(data, (d) => +d.yAxis);
+        if (!maxSize) {
+          return center.y;
+        }
+        const yScaler = d3
+          .scaleLinear()
+          .domain([0, maxSize])
+          .range([40, height - 40])
+          .unknown(center.y);
+        return yScaler(parseInt(value));
       }
-      const maxSize = d3.max(data, (d) => +d.yAxis);
-      if (!maxSize) {
-        return center.y;
-      }
-      const yScaler = d3
-        .scaleLinear()
-        .domain([0, maxSize])
-        .range([10, height - 40])
-        .unknown(center.y);
-      return yScaler(parseInt(value));
     },
     [data, center, yAxis]
   );
@@ -186,7 +244,7 @@ export const AbstractBubbleChart: React.VFC<{
         .attr("y", (d) => d.y)
         .attr("text-anchor", "middle")
         .attr("dominant-baseline", "middle")
-        .text((d) => d.title);
+        .text((d) => (d.title ? d.title : ""));
     });
   }, [data, center, xAxis, yAxis]);
 

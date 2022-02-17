@@ -1,0 +1,6 @@
+[
+  {"sizeValue":"1","colorValue":"hoge","xValue":"top","yValue":"left"},
+  {"sizeValue":"25","colorValue":"fuga","xValue":"top","yValue":"right"},
+  {"sizeValue":"75","colorValue":"piyo","xValue":"bottom","yValue":"left"},
+  {"sizeValue":"100","colorValue":"puni","xValue":"bottom","yValue":"right"}
+]

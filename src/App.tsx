@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
-import { css } from "@emotion/css";
 import "./App.css";
 import { InteractiveScatterChart } from "./components/InteractiveScatterChart";
 import { InteractiveBubbleChart } from "./components/InteractiveBubbleChart";
+import { PracticeBubbleChart } from "./components/PracticeBubbleChart";
 
-const tabs = ["bubble", "scatter"];
+const tabs = ["bubble", "practice", "scatter"];
 function App() {
   const [activeTab, setActiveTab] = useState(tabs[0]);
 
@@ -55,6 +55,7 @@ function App() {
       <div style={{ width: "100vw", height: "96vh" }}>
         {activeTab === "scatter" && <InteractiveScatterChart />}
         {activeTab === "bubble" && <InteractiveBubbleChart />}
+        {activeTab === "practice" && <PracticeBubbleChart />}
       </div>
     </div>
   );
