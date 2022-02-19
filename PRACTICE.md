@@ -12,7 +12,9 @@ http://localhost:3000/ で `practice` を選択して下さい。
 - `src/data/practice.json`
 - `src/data/practiceDims.json`
 
-## バブルを追加してみる
+## `src/data/practice.json` をいじる
+
+### バブルを追加してみる
 
 `src/data/practice.json` に一行追加して、以下のように変更してみましょう。
 
@@ -42,10 +44,12 @@ http://localhost:3000/ で `practice` を選択して下さい。
 最も基本となるバブルの追加方法については、以上です。  
 まずはここまでやってみましょう。
 
-## x 軸と y 軸を連続的にする
+## `src/data/practiceDims.json` をいじる
+
+### x 軸と y 軸を連続的にする
 
 TBW
 
-## より複雑なデータ構造の扱い
+### より複雑なデータ構造の扱い
 
 TBW
