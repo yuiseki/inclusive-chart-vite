@@ -220,7 +220,7 @@ export const AbstractBubbleChart: React.VFC<{
           if (d.index === undefined) {
             return 1;
           }
-          return onRadiusSize(data[d.index].radius) + 5;
+          return onRadiusSize(data[d.index].radius) + 15;
         })
       )
       // 円のx座標をonForceX関数で動的に指定する
@@ -273,7 +273,7 @@ export const AbstractBubbleChart: React.VFC<{
         .style("fill", "darkGray")
         .style("font-size", "12px")
         .attr("x", (d) => d.x + onRadiusSize(d.radius) / 2)
-        .attr("y", (d) => d.y + onRadiusSize(d.radius) / 2)
+        .attr("y", (d) => d.y + onRadiusSize(d.radius) + 15)
         .attr("text-anchor", "middle")
         .attr("dominant-baseline", "middle")
         .text((d) => (d.title ? d.title : ""));
