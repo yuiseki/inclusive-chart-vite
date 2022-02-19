@@ -122,7 +122,7 @@ export const AbstractBubbleChart: React.VFC<{
       const radiusScaler = d3
         .scaleLinear()
         .domain([1, maxSize])
-        .range([height / 400, height / 4]);
+        .range([height / 400, height / 15]);
       return radiusScaler(value);
     },
     [data, bubbleSizeKey]
