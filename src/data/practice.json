@@ -1,4 +1,8 @@
 [
-  {"sizeValue":"12544000","colorValue":"foo","xValue":"bottom","yValue":"right", "name": "日本人口"},
-  {"sizeValue":"1","colorValue":"bar","xValue":"top","yValue":"left", "name": "あなた"}
+  {"sizeValue":"7875000000","colorValue":"foo","xValue":"1","yValue":"middle", "name": "世界人口"},
+  {"sizeValue":"12544000","colorValue":"foo","xValue":"2","yValue":"middle", "name": "日本人口"},
+  {"sizeValue":"973200","colorValue":"baz","xValue":"3","yValue":"middle", "name": "35～39歳"},
+  {"sizeValue":"481000","colorValue":"baz","xValue":"4","yValue":"middle", "name": "発達障害"},
+  {"sizeValue":"9625","colorValue":"baz","xValue":"5","yValue":"middle", "name": "性同一性障害"},
+  {"sizeValue":"1","colorValue":"bar","xValue":"6","yValue":"middle", "name": "あなた"}
 ]
