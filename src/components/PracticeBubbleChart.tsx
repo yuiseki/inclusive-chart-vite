@@ -32,11 +32,11 @@ export const PracticeBubbleChart: React.VFC = () => {
         height={height}
         inputData={dataList}
         inputDimList={dimList}
-        bubbleSize={"sizeValue"}
-        bubbleColor={"colorValue"}
+        bubbleSizeKey={"sizeValue"}
+        bubbleColorKey={"colorValue"}
         bubbleTitle={(d) => d.name + ""}
-        xAxis={"xValue"}
-        yAxis={"yValue"}
+        xAxisKey={"xValue"}
+        yAxisKey={"yValue"}
       />
     </div>
   );

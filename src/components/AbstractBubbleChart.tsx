@@ -3,11 +3,14 @@ import * as d3 from "d3";
 import { forceSimulation } from "d3-force";
 import { select } from "d3";
 
-type RawData = {
+// JSONにおけるkey-valueのデータ型
+type KeyValueData = {
   [key: string]: number | string;
 };
-type RawDataList = RawData[];
+// key-valueが配列になっているデータ型
+type KeyValueDataArray = KeyValueData[];
 
+// 可視化に使うための各次元のデータ型
 type DimDataKeys = "value" | "displayName" | "patterns" | "domain" | "range";
 type DimData = {
   [key: string]: {
@@ -15,10 +18,7 @@ type DimData = {
   };
 };
 
-type DimList = {
-  [key: string]: DimData;
-}[];
-
+// d3.jsで円を表示するためのデータ型
 type BubbleData = {
   index: number;
   x: number;
@@ -33,28 +33,29 @@ type BubbleData = {
 export const AbstractBubbleChart: React.VFC<{
   width: number;
   height: number;
-  inputData: RawDataList;
+  inputData: KeyValueDataArray;
   inputDimList: DimData;
-  bubbleSize: string;
-  bubbleColor: string;
-  bubbleTitle?: (d: RawData) => string;
-  xAxis: string;
-  yAxis: string;
+  bubbleSizeKey: string;
+  bubbleColorKey: string;
+  bubbleTitle?: (d: KeyValueData) => string;
+  xAxisKey: string;
+  yAxisKey: string;
 }> = ({
   width,
   height,
   inputData,
   inputDimList,
-  bubbleSize,
-  bubbleColor,
+  bubbleSizeKey,
+  bubbleColorKey,
   bubbleTitle,
-  xAxis,
-  yAxis,
+  xAxisKey,
+  yAxisKey,
 }) => {
   const [data, setData] = useState<BubbleData[] | undefined>(undefined);
   const ref = useRef<SVGSVGElement>(null);
   const [center, setCenter] = useState({ x: width / 2, y: height / 2 });
 
+  // width, heightに基づいて、centerの座標x, yを決定する
   useEffect(() => {
     if (!width || !height) {
       return;
@@ -62,22 +63,53 @@ export const AbstractBubbleChart: React.VFC<{
     setCenter({ x: width / 2, y: height / 2 });
   }, [width, height]);
 
+  // bubbleSizeKey, bubbleColorKey, xAxisKey, yAxisKeyに基づいて、
+  // inputDataをd3.jsで表示するためのBubbleData型のデータ構造に変換する
   useEffect(() => {
     const newData = inputData.map((rawD, i) => {
       return {
         index: i,
-        x: center.x,
-        y: center.y,
-        radius: rawD[bubbleSize] as number,
-        color: rawD[bubbleColor] as string,
-        xAxis: rawD[xAxis] as string,
-        yAxis: rawD[yAxis] as string,
+        x: center.x, // あとで動的に変更するので適当で良い
+        y: center.y, // あとで動的に変更するので適当で良い
+        radius: rawD[bubbleSizeKey] as number,
+        color: rawD[bubbleColorKey] as string,
+        xAxis: rawD[xAxisKey] as string,
+        yAxis: rawD[yAxisKey] as string,
         title: bubbleTitle ? bubbleTitle(rawD) : undefined,
       };
     });
     setData(newData);
-  }, [inputData, center, bubbleSize, bubbleColor, xAxis, yAxis]);
+  }, [inputData, center, bubbleSizeKey, bubbleColorKey, xAxisKey, yAxisKey]);
 
+  // 以下からはd3.jsの各種関数を使っていく
+  // 参考文献:
+  // - scaleOrdinal
+  //   - https://github.com/d3/d3-scale/blob/v4.0.2/README.md#scaleOrdinal
+  //   - https://observablehq.com/@d3/d3-scaleordinal
+  // - scaleLinear
+  //   - https://github.com/d3/d3-scale/blob/v4.0.2/README.md#scaleLinear
+  //   - https://observablehq.com/@d3/d3-scalelinear
+
+  // 円の色を決定するための関数
+  // bubbleColorKeyで指定されたordinalな値と、
+  // inputDimListにあるdomain, rangeで決定している
+  const onFillColor = useCallback(
+    (value) => {
+      let domain = inputDimList[bubbleColorKey].domain;
+      let range = inputDimList[bubbleColorKey].range;
+      const fillColor = d3
+        .scaleOrdinal<string>()
+        .domain(domain)
+        .range(range)
+        .unknown("black");
+      return fillColor(value);
+    },
+    [bubbleColorKey]
+  );
+
+  // 円の半径を決定するための関数
+  // bubbleSizeKeyで指定されたlinearな値と、
+  // heightに基づいて決定している
   const onRadiusSize = useCallback(
     (value) => {
       if (!data) {
@@ -93,26 +125,16 @@ export const AbstractBubbleChart: React.VFC<{
         .range([height / 400, height / 4]);
       return radiusScaler(value);
     },
-    [data, bubbleSize]
+    [data, bubbleSizeKey]
   );
 
-  const onFillColor = useCallback(
-    (value) => {
-      let domain = inputDimList[bubbleColor].domain;
-      let range = inputDimList[bubbleColor].range;
-      const fillColor = d3
-        .scaleOrdinal<string>()
-        .domain(domain)
-        .range(range)
-        .unknown("black");
-      return fillColor(value);
-    },
-    [bubbleColor]
-  );
-
+  // 円のx座標を決定するための関数
+  // inputDimListにdomainがある場合はordinalな値として扱う
+  // inputDimListにdomainがない場合はlinearな値として扱う
+  // widthに基づいて決定している
   const onForceX = useCallback(
     (value) => {
-      let domain: string[] = inputDimList[xAxis].domain as string[];
+      let domain: string[] = inputDimList[xAxisKey].domain as string[];
       if (domain.length > 0) {
         console.log("x ordinal", domain);
         const range = Array.from(Array(domain.length), (_d, i) => {
@@ -142,12 +164,16 @@ export const AbstractBubbleChart: React.VFC<{
         return xScaler(parseInt(value));
       }
     },
-    [center, xAxis]
+    [center, xAxisKey]
   );
 
+  // 円のy座標を決定するための関数
+  // inputDimListにdomainがある場合はordinalな値として扱う
+  // inputDimListにdomainがない場合はlinearな値として扱う
+  // heightに基づいて決定している
   const onForceY = useCallback(
     (value) => {
-      let domain: string[] = inputDimList[yAxis].domain as string[];
+      let domain: string[] = inputDimList[yAxisKey].domain as string[];
       if (domain.length > 0) {
         console.log("y ordinal", domain);
         const range = Array.from(Array(domain.length), (_d, i) => {
@@ -177,15 +203,27 @@ export const AbstractBubbleChart: React.VFC<{
         return yScaler(parseInt(value));
       }
     },
-    [data, center, yAxis]
+    [data, center, yAxisKey]
   );
 
+  // d3.jsで円を描画する処理の実行
   useEffect(() => {
     if (!data || !ref.current) {
       return;
     }
     const svg = select(ref.current);
     const simulation = forceSimulation(data)
+      // 円の当たり判定をonRadiusSize関数で動的に指定する
+      .force(
+        "collision",
+        d3.forceCollide().radius((d) => {
+          if (d.index === undefined) {
+            return 1;
+          }
+          return onRadiusSize(data[d.index].radius) + 5;
+        })
+      )
+      // 円のx座標をonForceX関数で動的に指定する
       .force(
         "x",
         d3
@@ -198,6 +236,7 @@ export const AbstractBubbleChart: React.VFC<{
             return onForceX(data[d.index].xAxis);
           })
       )
+      // 円のy座標をonForceY関数で動的に指定する
       .force(
         "y",
         d3
@@ -209,17 +248,9 @@ export const AbstractBubbleChart: React.VFC<{
             }
             return onForceY(data[d.index].yAxis);
           })
-      )
-      .force(
-        "collision",
-        d3.forceCollide().radius((d) => {
-          if (d.index === undefined) {
-            return 1;
-          }
-          return onRadiusSize(data[d.index].radius) + 5;
-        })
       );
     simulation.on("tick", () => {
+      // 円を描画する
       svg
         .selectAll("circle")
         .data(data)
@@ -227,13 +258,13 @@ export const AbstractBubbleChart: React.VFC<{
         .style("fill", (d) => onFillColor(d.color))
         .style("stroke", "black")
         .attr("cx", (d) => {
-          return (d.x = Math.max(30, Math.min(width - 30, d.x)));
+          return (d.x = Math.max(30, Math.min(width - 30, d.x))); // 画面からはみ出さないようにしている
         })
         .attr("cy", (d) => {
-          return (d.y = Math.max(30, Math.min(height - 30, d.y)));
+          return (d.y = Math.max(30, Math.min(height - 30, d.y))); // 画面からはみ出さないようにしている
         })
         .attr("r", (d) => onRadiusSize(d.radius));
-
+      // 円のラベルを描画する
       svg
         .selectAll("text")
         .data(data)
@@ -246,7 +277,7 @@ export const AbstractBubbleChart: React.VFC<{
         .attr("dominant-baseline", "middle")
         .text((d) => (d.title ? d.title : ""));
     });
-  }, [data, center, xAxis, yAxis]);
+  }, [data, center, xAxisKey, yAxisKey]);
 
   return (
     <svg
