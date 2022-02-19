@@ -252,18 +252,19 @@ export const AbstractBubbleChart: React.VFC<{
     simulation.on("tick", () => {
       // 円を描画する
       svg
-        .selectAll("circle")
+        .selectAll("rect")
         .data(data)
-        .join("circle")
+        .join("rect")
         .style("fill", (d) => onFillColor(d.color))
         .style("stroke", "black")
-        .attr("cx", (d) => {
+        .attr("x", (d) => {
           return (d.x = Math.max(30, Math.min(width - 30, d.x))); // 画面からはみ出さないようにしている
         })
-        .attr("cy", (d) => {
+        .attr("y", (d) => {
           return (d.y = Math.max(30, Math.min(height - 30, d.y))); // 画面からはみ出さないようにしている
         })
-        .attr("r", (d) => onRadiusSize(d.radius));
+        .attr("width", (d) => onRadiusSize(d.radius))
+        .attr("height", (d) => onRadiusSize(d.radius));
       // 円のラベルを描画する
       svg
         .selectAll("text")
@@ -271,8 +272,8 @@ export const AbstractBubbleChart: React.VFC<{
         .join("text")
         .style("fill", "darkGray")
         .style("font-size", "12px")
-        .attr("x", (d) => d.x)
-        .attr("y", (d) => d.y)
+        .attr("x", (d) => d.x + onRadiusSize(d.radius) / 2)
+        .attr("y", (d) => d.y + onRadiusSize(d.radius) / 2)
         .attr("text-anchor", "middle")
         .attr("dominant-baseline", "middle")
         .text((d) => (d.title ? d.title : ""));
