@@ -2,16 +2,7 @@
 
 ## 概要
 
-「日本がもし 100 人の村だったら」を可視化するための Web サイトです
-
-## データ
-
-現在、以下のデータを 100 人に圧縮して表示しています
-
-- 年齢
-- 性別
-- 働いているか
-- 収入
+- https://scrapbox.io/c4j/インクルーシブチャート
 
 ## 開発
 
@@ -19,14 +10,15 @@
 
 - https://scrapbox.io/c4j/GitHubでの共同開発への参加の準備 を読んで以下のセットアップをしてください
   - git
-  - GitHub
-  - GitHub Desktop
-  - Visual Studio Code
-  - Node.js
+  - GitHub アカウント
+  - GitHub Desktop (任意)
+  - Visual Studio Code (推奨)
+  - nvm (推奨)
+  - Node.js v16.13.2
 
-### Forkしてcloneする
+### Fork して clone する
 
-- https://scrapbox.io/c4j/GitHubのリポジトリをForkしてcloneする を参考にForkしてcloneしてください
+- https://scrapbox.io/c4j/GitHubのリポジトリをForkしてcloneする を参考に Fork して clone してください
 
 ### 依存関係をインストールする
 
