@@ -3,8 +3,9 @@ import "./App.css";
 import { InteractiveScatterChart } from "./components/InteractiveScatterChart";
 import { InteractiveBubbleChart } from "./components/InteractiveBubbleChart";
 import { PracticeBubbleChart } from "./components/PracticeBubbleChart";
+import { InteractiveMobileBubbleChart } from "./components/InteractiveMobileBubbleChart";
 
-const tabs = ["bubble", "practice", "scatter"];
+const tabs = ["bubble", "practice", "scatter", "mobile"];
 function App() {
   const [activeTab, setActiveTab] = useState(tabs[0]);
 
@@ -56,6 +57,7 @@ function App() {
         {activeTab === "scatter" && <InteractiveScatterChart />}
         {activeTab === "bubble" && <InteractiveBubbleChart />}
         {activeTab === "practice" && <PracticeBubbleChart />}
+        {activeTab === "mobile" && <InteractiveMobileBubbleChart />}
       </div>
     </div>
   );

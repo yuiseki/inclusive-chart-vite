@@ -1,6 +1,6 @@
 import React from "react";
 
-export const InteractiveBubbleChartAxis: React.VFC<{
+export const InteractiveMobileBubbleChartAxis: React.VFC<{
   onResetAxis: (e: React.FormEvent) => void;
   patterns: string[];
 }> = ({ onResetAxis, patterns }) => {

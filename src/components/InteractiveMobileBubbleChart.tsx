@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { AbstractBubbleChart } from "./AbstractBubbleChart";
-import { InteractiveBubbleChartAxis } from "./InteractiveBubbleChartAxis";
+import { AbstractMobileBubbleChart } from "./AbstractMobileBubbleChart";
+import { InteractiveMobileBubbleChartAxis } from "./InteractiveMobileBubbleChartAxis";
 
 import dataList from "../data/sample.json";
 import dimList from "../data/sampleDims.json";
@@ -13,7 +13,7 @@ const yAxisDims = [dimList.age, dimList.income, dimList.satisfaction];
 // 離散値
 const xAxisDims = [dimList.sex, dimList.job];
 
-export const InteractiveBubbleChart: React.VFC = () => {
+export const InteractiveMobileBubbleChart: React.VFC = () => {
   const div = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState<number>(window.innerWidth - 100);
   const [height, setHeight] = useState<number>(window.innerHeight - 100);
@@ -129,7 +129,7 @@ export const InteractiveBubbleChart: React.VFC = () => {
           })
           .map((dim) => {
             return (
-              <InteractiveBubbleChartAxis
+              <InteractiveMobileBubbleChartAxis
                 onResetAxis={onChangeXAxis}
                 patterns={dim.patterns}
               />
@@ -183,7 +183,7 @@ export const InteractiveBubbleChart: React.VFC = () => {
             })
             .map((dim) => {
               return (
-                <InteractiveBubbleChartAxis
+                <InteractiveMobileBubbleChartAxis
                   onResetAxis={onChangeYAxis}
                   patterns={dim.patterns}
                 />
@@ -200,16 +200,14 @@ export const InteractiveBubbleChart: React.VFC = () => {
               width: "100%",
             }}
           >
-            <AbstractBubbleChart
+            <AbstractMobileBubbleChart
               width={width}
               height={height}
-              inputData={dataList}
-              inputDimList={dimList}
-              bubbleSizeKey={bubbleSize}
-              bubbleColorKey={bubbleColor}
-              bubbleTitle={(d) => d.name + "@" + d.address}
-              xAxisKey={xAxis}
-              yAxisKey={yAxis}
+              rawData={dataList}
+              bubbleSize={bubbleSize}
+              bubbleColor={bubbleColor}
+              xAxis={xAxis}
+              yAxis={yAxis}
             />
           </div>
         </div>
