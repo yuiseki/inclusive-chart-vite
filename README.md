@@ -31,3 +31,7 @@
 ### 動作確認する
 
 - ブラウザで http://localhost:3000/ を開く
+
+## バブルをいじってみる
+
+[PRACTICE.md](/PRACTICE.md) を読んで下さい

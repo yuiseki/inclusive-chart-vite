@@ -2,7 +2,7 @@
 
 ## 前提
 
-README.md で書かれているセットアップができていて http://localhost:3000/inclusive-chart-vite/ でインクルーシブチャートが見れること。
+[README.md](/README.md) で書かれているセットアップができていて http://localhost:3000/inclusive-chart-vite/ でインクルーシブチャートが見れること。
 
 http://localhost:3000/ で `practice` を選択して下さい。  
 または http://localhost:3000/inclusive-chart-vite/#practice を開いて下さい。
