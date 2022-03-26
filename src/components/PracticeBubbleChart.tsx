@@ -12,7 +12,9 @@ import japanDimList from "../data/practice/japan/dataDim.json";
 import yuisekiDataList from "../data/practice/yuiseki/data.json";
 import yuisekiDimList from "../data/practice/yuiseki/dataDim.json";
 
-const datasetOptions = {
+const datasetOptions: {
+  [key: string]: { dataList: KeyValueDataArray; dimList: DimData };
+} = {
   practice: {
     dataList: practiceDataList,
     dimList: practiceDimList,
