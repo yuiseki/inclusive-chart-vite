@@ -12,5 +12,9 @@
   {"population":"328","sex":"male","age":"29","yValue":"middle", "name": "24-29歳 男"},
   {"population":"311","sex":"female","age":"29","yValue":"middle", "name": "24-29歳 女"},
   {"population":"333","sex":"male","age":"34","yValue":"middle", "name": "30-34歳 男"},
-  {"population":"318","sex":"female","age":"34","yValue":"middle", "name": "30-34歳 女"}
+  {"population":"318","sex":"female","age":"34","yValue":"middle", "name": "30-34歳 女"},
+  {"population":"371","sex":"male","age":"39","yValue":"middle", "name": "35-39歳 男"},
+  {"population":"318","sex":"female","age":"39","yValue":"middle", "name": "35-39歳 女"},
+  {"population":"410","sex":"male","age":"44","yValue":"middle", "name": "40-44歳 男"},
+  {"population":"399","sex":"female","age":"44","yValue":"middle", "name": "40-44歳 女"}
 ]

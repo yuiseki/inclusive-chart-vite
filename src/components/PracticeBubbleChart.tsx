@@ -7,23 +7,32 @@ import {
 
 import practiceDataList from "../data/practice/data.json";
 import practiceDimList from "../data/practice/dataDim.json";
+import japanDataList from "../data/practice/japan/data.json";
+import japanDimList from "../data/practice/japan/dataDim.json";
+import yuisekiDataList from "../data/practice/yuiseki/data.json";
+import yuisekiDimList from "../data/practice/yuiseki/dataDim.json";
 
-// japan
-import japanDataList from "../data/japan/data.json";
-import japanDimList from "../data/japan/dataDim.json";
-
-// yuiseki
-import yuisekiDataList from "../data/yuiseki/data.json";
-import yuisekiDimList from "../data/yuiseki/dataDim.json";
-
-const datasetOptions = ["practice", "japan", "yuiseki"];
+const datasetOptions = {
+  practice: {
+    dataList: practiceDataList,
+    dimList: practiceDimList,
+  },
+  japanAge: {
+    dataList: japanDataList,
+    dimList: japanDimList,
+  },
+  yuiseki: {
+    dataList: yuisekiDataList,
+    dimList: yuisekiDimList,
+  },
+};
 
 export const PracticeBubbleChart: React.VFC = () => {
   const div = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState<number>(window.innerWidth - 100);
   const [height, setHeight] = useState<number>(window.innerHeight - 100);
 
-  const [dataOption, setDataOption] = useState("sample");
+  const [dataOption, setDataOption] = useState(Object.keys(datasetOptions)[0]);
   const [dataList, setDataList] = useState<KeyValueDataArray>(practiceDataList);
   const [dimList, setDimList] = useState<DimData>(practiceDimList);
 
@@ -40,28 +49,17 @@ export const PracticeBubbleChart: React.VFC = () => {
   }, []);
 
   useEffect(() => {
-    switch (dataOption) {
-      case "practice":
-        setDataList(practiceDataList);
-        setDimList(practiceDimList);
-        break;
-      case "yuiseki":
-        setDataList(yuisekiDataList);
-        setDimList(yuisekiDimList);
-        break;
-      case "japan":
-        setDataList(japanDataList);
-        setDimList(japanDimList);
-        break;
-      default:
-        break;
+    if (Object.keys(datasetOptions).indexOf(dataOption)) {
+      const dataset = datasetOptions[dataOption];
+      setDataList(dataset.dataList);
+      setDimList(dataset.dimList);
     }
   }, [dataOption]);
 
   return (
     <div>
       <select onChange={onChange}>
-        {datasetOptions.map((opt) => {
+        {Object.keys(datasetOptions).map((opt) => {
           return (
             <option value={opt} selected={dataOption === opt}>
               {opt}
