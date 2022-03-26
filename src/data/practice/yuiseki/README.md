@@ -7,6 +7,10 @@ https://www.stat.go.jp/data/jinsui/new.html
 > 【2022 年（令和 4 年）3 月 1 日現在（概算値）】
 > 　　　　＜総人口＞　 1 億 2526 万人
 
+### 東京都人口
+
+https://www.toukei.metro.tokyo.lg.jp/jsuikei/js-index.htm
+
 ### 35 ～ 39 歳人口
 
 https://www.stat.go.jp/data/jinsui/pdf/202203.pdf

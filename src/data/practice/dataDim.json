@@ -24,7 +24,7 @@
     "value": "yValue",
     "displayName": "y",
     "patterns": [],
-    "domain": ["left", "middle", "right"],
+    "domain": ["top", "middle", "bottom"],
     "range": []
   }
 }
