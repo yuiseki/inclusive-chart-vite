@@ -1,0 +1,30 @@
+{
+  "sizeValue": {
+    "value": "sizeValue",
+    "displayName": "size",
+    "patterns": [],
+    "domain": [],
+    "range": []
+  },
+  "colorValue": {
+    "value": "colorValue",
+    "displayName": "color",
+    "patterns": [],
+    "domain": ["black", "white", "gray", "blue", "red", "yellow", "green"],
+    "range": ["black", "white", "gray", "blue", "red", "yellow", "green"]
+  },
+  "xValue": {
+    "value": "xValue",
+    "displayName": "x",
+    "patterns": [],
+    "domain": [],
+    "range": []
+  },
+  "yValue": {
+    "value": "yValue",
+    "displayName": "y",
+    "patterns": [],
+    "domain": ["left", "middle", "right"],
+    "range": []
+  }
+}

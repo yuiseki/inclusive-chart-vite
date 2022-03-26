@@ -1,0 +1,7 @@
+[
+  {"sizeValue":"126500000","colorValue":"black","xValue":"1","yValue":"middle", "name": "日本人口"},
+  {"sizeValue":"9366000","colorValue":"gray","xValue":"2","yValue":"middle", "name": "障がい者(合計)"},
+  {"sizeValue":"4360000","colorValue":"gray","xValue":"3","yValue":"middle", "name": "身体障害者"},
+  {"sizeValue":"1082000","colorValue":"gray","xValue":"4","yValue":"middle", "name": "知的障害者"},
+  {"sizeValue":"3924000","colorValue":"gray","xValue":"5","yValue":"middle", "name": "精神障害者"}
+]
