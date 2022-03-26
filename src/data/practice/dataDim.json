@@ -10,7 +10,7 @@
     "value": "colorValue",
     "displayName": "color",
     "patterns": [],
-    "domain": ["foo", "bar", "baz", "hoge", "fuga", "piyo", "puni"],
+    "domain": ["black", "white", "gray", "blue", "red", "yellow", "green"],
     "range": ["black", "white", "gray", "blue", "red", "yellow", "green"]
   },
   "xValue": {
