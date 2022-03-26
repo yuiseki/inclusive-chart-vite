@@ -1,8 +1,8 @@
 [
-  {"sizeValue":"125260000","colorValue":"black","xValue":"2","yValue":"middle", "name": "日本人口"},
-  {"sizeValue":"13988129","colorValue":"gray","xValue":"3","yValue":"middle", "name": "東京都民"},
-  {"sizeValue":"973200","colorValue":"gray","xValue":"4","yValue":"middle", "name": "35～39歳"},
-  {"sizeValue":"481000","colorValue":"gray","xValue":"5","yValue":"middle", "name": "発達障害"},
-  {"sizeValue":"9625","colorValue":"gray","xValue":"6","yValue":"middle", "name": "性同一性障害"},
-  {"sizeValue":"1","colorValue":"gray","xValue":"7","yValue":"middle", "name": "あなた"}
+  {"sizeValue":"125260000","colorValue":"black","xValue":"1","yValue":"middle", "name": "日本人口"},
+  {"sizeValue":"13988129","colorValue":"gray","xValue":"2","yValue":"middle", "name": "東京都民"},
+  {"sizeValue":"973200","colorValue":"gray","xValue":"3","yValue":"middle", "name": "35～39歳"},
+  {"sizeValue":"481000","colorValue":"gray","xValue":"4","yValue":"middle", "name": "発達障害"},
+  {"sizeValue":"9625","colorValue":"gray","xValue":"5","yValue":"middle", "name": "性同一性障害"},
+  {"sizeValue":"1","colorValue":"gray","xValue":"6","yValue":"middle", "name": "あなた"}
 ]
