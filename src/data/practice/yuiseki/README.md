@@ -1,5 +1,16 @@
 ## yuiseki のデータソース
 
+### 日本人口
+
+https://www.stat.go.jp/data/jinsui/new.html
+
+> 【2022 年（令和 4 年）3 月 1 日現在（概算値）】
+> 　　　　＜総人口＞　 1 億 2526 万人
+
+### 35 ～ 39 歳人口
+
+https://www.stat.go.jp/data/jinsui/pdf/202203.pdf
+
 ### 発達障害の人数
 
 https://resemom.jp/article/2018/04/09/43970.html
