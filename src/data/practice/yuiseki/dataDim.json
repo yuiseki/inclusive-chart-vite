@@ -21,10 +21,10 @@
     "range": []
   },
   "yValue": {
-    "value": "yValue",
+    "value": "sizeValue",
     "displayName": "y",
     "patterns": [],
-    "domain": ["top", "middle", "bottom"],
+    "domain": [],
     "range": []
   }
 }
