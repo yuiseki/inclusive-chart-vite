@@ -8,11 +8,11 @@ type KeyValueData = {
   [key: string]: number | string;
 };
 // key-valueが配列になっているデータ型
-type KeyValueDataArray = KeyValueData[];
+export type KeyValueDataArray = KeyValueData[];
 
 // 可視化に使うための各次元のデータ型
 type DimDataKeys = "value" | "displayName" | "patterns" | "domain" | "range";
-type DimData = {
+export type DimData = {
   [key: string]: {
     [key in DimDataKeys]: string | string[];
   };
@@ -95,8 +95,14 @@ export const AbstractBubbleChart: React.VFC<{
   // inputDimListにあるdomain, rangeで決定している
   const onFillColor = useCallback(
     (value) => {
-      let domain = inputDimList[bubbleColorKey].domain;
-      let range = inputDimList[bubbleColorKey].range;
+      let domain, range;
+      if (inputDimList["colorValue"]) {
+        domain = inputDimList["colorValue"].domain;
+        range = inputDimList["colorValue"].range;
+      } else {
+        domain = inputDimList[bubbleColorKey].domain;
+        range = inputDimList[bubbleColorKey].range;
+      }
       const fillColor = d3
         .scaleOrdinal<string>()
         .domain(domain)
@@ -134,7 +140,12 @@ export const AbstractBubbleChart: React.VFC<{
   // widthに基づいて決定している
   const onForceX = useCallback(
     (value) => {
-      let domain: string[] = inputDimList[xAxisKey].domain as string[];
+      let domain: string[];
+      if (inputDimList["xValue"]) {
+        domain = inputDimList["xValue"].domain as string[];
+      } else {
+        domain = inputDimList[xAxisKey].domain as string[];
+      }
       if (domain.length > 0) {
         console.log("x ordinal", domain);
         const range = Array.from(Array(domain.length), (_d, i) => {
@@ -150,6 +161,7 @@ export const AbstractBubbleChart: React.VFC<{
       } else {
         console.log("x linear", value);
         if (!data) {
+          console.log("x data undefined");
           return center.x;
         }
         const maxSize = d3.max(data, (d) => +d.xAxis);
@@ -164,7 +176,7 @@ export const AbstractBubbleChart: React.VFC<{
         return xScaler(parseInt(value));
       }
     },
-    [center, xAxisKey]
+    [data, center, xAxisKey]
   );
 
   // 円のy座標を決定するための関数
@@ -173,7 +185,12 @@ export const AbstractBubbleChart: React.VFC<{
   // heightに基づいて決定している
   const onForceY = useCallback(
     (value) => {
-      let domain: string[] = inputDimList[yAxisKey].domain as string[];
+      let domain: string[];
+      if (inputDimList["yValue"]) {
+        domain = inputDimList["yValue"].domain as string[];
+      } else {
+        domain = inputDimList[yAxisKey].domain as string[];
+      }
       if (domain.length > 0) {
         console.log("y ordinal", domain);
         const range = Array.from(Array(domain.length), (_d, i) => {

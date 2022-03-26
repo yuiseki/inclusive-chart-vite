@@ -1,14 +1,22 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { AbstractBubbleChart } from "./AbstractBubbleChart";
+import {
+  AbstractBubbleChart,
+  DimData,
+  KeyValueDataArray,
+} from "./AbstractBubbleChart";
 
-import sampleDataList from "../data/practice/data.json";
-import sampleDimList from "../data/practice/dataDim.json";
+import practiceDataList from "../data/practice/data.json";
+import practiceDimList from "../data/practice/dataDim.json";
+
+// japan
+import japanDataList from "../data/japan/data.json";
+import japanDimList from "../data/japan/dataDim.json";
 
 // yuiseki
 import yuisekiDataList from "../data/yuiseki/data.json";
 import yuisekiDimList from "../data/yuiseki/dataDim.json";
 
-const datasetOptions = ["sample", "yuiseki"];
+const datasetOptions = ["practice", "japan", "yuiseki"];
 
 export const PracticeBubbleChart: React.VFC = () => {
   const div = useRef<HTMLDivElement>(null);
@@ -16,8 +24,8 @@ export const PracticeBubbleChart: React.VFC = () => {
   const [height, setHeight] = useState<number>(window.innerHeight - 100);
 
   const [dataOption, setDataOption] = useState("sample");
-  const [dataList, setDataList] = useState(sampleDataList);
-  const [dimList, setDimList] = useState(sampleDimList);
+  const [dataList, setDataList] = useState<KeyValueDataArray>(practiceDataList);
+  const [dimList, setDimList] = useState<DimData>(practiceDimList);
 
   useEffect(() => {
     if (!div.current) {
@@ -33,13 +41,18 @@ export const PracticeBubbleChart: React.VFC = () => {
 
   useEffect(() => {
     switch (dataOption) {
-      case "sample":
-        setDataList(sampleDataList);
-        setDimList(sampleDimList);
+      case "practice":
+        setDataList(practiceDataList);
+        setDimList(practiceDimList);
         break;
       case "yuiseki":
         setDataList(yuisekiDataList);
         setDimList(yuisekiDimList);
+        break;
+      case "japan":
+        setDataList(japanDataList);
+        setDimList(japanDimList);
+        break;
       default:
         break;
     }
@@ -70,11 +83,11 @@ export const PracticeBubbleChart: React.VFC = () => {
           height={height}
           inputData={dataList}
           inputDimList={dimList}
-          bubbleSizeKey={"sizeValue"}
-          bubbleColorKey={"colorValue"}
+          bubbleSizeKey={dimList.sizeValue.value as string}
+          bubbleColorKey={dimList.colorValue.value as string}
           bubbleTitle={(d) => d.name + ""}
-          xAxisKey={"xValue"}
-          yAxisKey={"yValue"}
+          xAxisKey={dimList.xValue.value as string}
+          yAxisKey={dimList.yValue.value as string}
         />
       </div>
     </div>

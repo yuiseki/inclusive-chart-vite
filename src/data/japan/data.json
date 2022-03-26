@@ -1,0 +1,16 @@
+[
+  {"population":"221","sex":"male","age":"4","yValue":"middle", "name": "0-4歳 男"},
+  {"population":"211","sex":"female","age":"4","yValue":"middle", "name": "0-4歳 女"},
+  {"population":"256","sex":"male","age":"9","yValue":"middle", "name": "5-9歳 男"},
+  {"population":"244","sex":"female","age":"9","yValue":"middle", "name": "5-9歳 女"},
+  {"population":"274","sex":"male","age":"14","yValue":"middle", "name": "10-14歳 男"},
+  {"population":"260","sex":"female","age":"14","yValue":"middle", "name": "10-14歳 女"},
+  {"population":"286","sex":"male","age":"19","yValue":"middle", "name": "15-19歳 男"},
+  {"population":"271","sex":"female","age":"19","yValue":"middle", "name": "15-19歳 女"},
+  {"population":"321","sex":"male","age":"24","yValue":"middle", "name": "20-24歳 男"},
+  {"population":"305","sex":"female","age":"24","yValue":"middle", "name": "20-24歳 女"},
+  {"population":"328","sex":"male","age":"29","yValue":"middle", "name": "24-29歳 男"},
+  {"population":"311","sex":"female","age":"29","yValue":"middle", "name": "24-29歳 女"},
+  {"population":"333","sex":"male","age":"34","yValue":"middle", "name": "30-34歳 男"},
+  {"population":"318","sex":"female","age":"34","yValue":"middle", "name": "30-34歳 女"}
+]

@@ -1,0 +1,30 @@
+{
+  "sizeValue": {
+    "value": "population",
+    "displayName": "population",
+    "patterns": [],
+    "domain": [],
+    "range": []
+  },
+  "colorValue": {
+    "value": "sex",
+    "displayName": "sex",
+    "patterns": [],
+    "domain": ["male", "female"],
+    "range": ["blue", "red"]
+  },
+  "xValue": {
+    "value": "age",
+    "displayName": "age",
+    "patterns": [],
+    "domain": [],
+    "range": []
+  },
+  "yValue": {
+    "value": "yValue",
+    "displayName": "yValue",
+    "patterns": [],
+    "domain": ["left", "middle", "right"],
+    "range": []
+  }
+}
