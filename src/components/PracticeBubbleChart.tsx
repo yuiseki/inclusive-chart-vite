@@ -7,8 +7,8 @@ import {
 
 import practiceDataList from "../data/practice/data.json";
 import practiceDimList from "../data/practice/dataDim.json";
-import japanDataList from "../data/practice/japan/data.json";
-import japanDimList from "../data/practice/japan/dataDim.json";
+import japanAgeDataList from "../data/practice/japanAge/data.json";
+import japanAgeDimList from "../data/practice/japanAge/dataDim.json";
 import yuisekiDataList from "../data/practice/yuiseki/data.json";
 import yuisekiDimList from "../data/practice/yuiseki/dataDim.json";
 
@@ -20,8 +20,8 @@ const datasetOptions: {
     dimList: practiceDimList,
   },
   japanAge: {
-    dataList: japanDataList,
-    dimList: japanDimList,
+    dataList: japanAgeDataList,
+    dimList: japanAgeDimList,
   },
   yuiseki: {
     dataList: yuisekiDataList,
