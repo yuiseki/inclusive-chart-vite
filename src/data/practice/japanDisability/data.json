@@ -1,0 +1,8 @@
+[
+  {"sizeValue":"126500000","colorValue":"black","xValue":"1","yValue":"middle", "name": "日本人口"},
+  {"sizeValue":"13988129","colorValue":"gray","xValue":"2","yValue":"middle", "name": "東京都民"},
+  {"sizeValue":"2882000","colorValue":"gray","xValue":"3","yValue":"middle", "name": "25-29歳女性"},
+  {"sizeValue":"68300000","colorValue":"gray","xValue":"4","yValue":"middle", "name": "労働力人口"},
+  {"sizeValue":"21200000","colorValue":"gray","xValue":"5","yValue":"middle", "name": "正規雇用者"},
+  {"sizeValue":"1","colorValue":"gray","xValue":"6","yValue":"middle", "name": "あなた"}
+]

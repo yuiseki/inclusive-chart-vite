@@ -11,6 +11,10 @@ import japanAgeDataList from "../data/practice/japanAge/data.json";
 import japanAgeDimList from "../data/practice/japanAge/dataDim.json";
 import yuisekiDataList from "../data/practice/yuiseki/data.json";
 import yuisekiDimList from "../data/practice/yuiseki/dataDim.json";
+import shibaharuDataList from "../data/practice/shibaharu/data.json";
+import shibaharuDimList from "../data/practice/shibaharu/dataDim.json";
+import japanDisabilityDataList from "../data/practice/japanDisability/data.json";
+import japanDisabilityDimList from "../data/practice/japanDisability/dataDim.json";
 
 const datasetOptions: {
   [key: string]: { dataList: KeyValueDataArray; dimList: DimData };
@@ -26,6 +30,14 @@ const datasetOptions: {
   yuiseki: {
     dataList: yuisekiDataList,
     dimList: yuisekiDimList,
+  },
+  shibaharu: {
+    dataList: shibaharuDataList,
+    dimList: shibaharuDimList,
+  },
+  japanDisability: {
+    dataList: japanDisabilityDataList,
+    dimList: japanDisabilityDimList,
   },
 };
 
