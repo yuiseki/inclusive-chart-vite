@@ -2,12 +2,12 @@
   "name": "visualize-poverty-vite",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 30000 --host 0.0.0.0",
     "convert-people": "node --loader ts-node/esm scripts/join-people.ts",
     "convert-sample": "npx csvtojson src/data/sample.csv > src/data/sample.json",
     "convert-json": "npm run convert-people && npm run convert-sample",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview --port 30000 --host 0.0.0.0"
   },
   "dependencies": {
     "@emotion/css": "^11.7.1",
